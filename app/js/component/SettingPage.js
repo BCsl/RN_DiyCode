@@ -1,31 +1,24 @@
 /**
  * Created by chensuilun on 2017/8/10.
  */
+
 import React, {Component} from 'react';
 import {
     StyleSheet,
-    Text,
     View,
-} from 'react-native'
+    Text,
+} from 'react-native';
 
-export default class TopicsPage extends Component {
+export default class SettingPage extends Component{
 
     constructor() {
         super();
     }
 
-    componentDidMount() {
-        console.log('TopicsPage=>componentDidMount');
-    }
-
-    componentWillUnmount() {
-        console.log('TopicsPage=>componentWillUnmount',);
-    }
-
     render() {
         return (
             <View style={styles.container}>
-                <Text> TopicsPage </Text>
+                <Text> SettingPage </Text>
             </View>
         )
     }

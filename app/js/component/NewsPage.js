@@ -15,6 +15,14 @@ export default class NewsPage extends Component {
         super();
     }
 
+    componentDidMount() {
+        console.log('NewsPage=>componentDidMount');
+    }
+
+    componentWillUnmount() {
+        console.log('NewsPage=>componentWillUnmount',);
+    }
+
     render() {
         return (
             <View style={styles.container}>

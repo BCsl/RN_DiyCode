@@ -14,6 +14,14 @@ export default class SitesPage extends Component {
         super();
     }
 
+    componentDidMount() {
+        console.log('SitesPage=>componentDidMount');
+    }
+
+    componentWillUnmount() {
+        console.log('SitesPage=>componentWillUnmount',);
+    }
+
     render() {
         return (
             <View style={styles.container}>
