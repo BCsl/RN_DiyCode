@@ -6,13 +6,22 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
+    StatusBar,
     Text,
 } from 'react-native'
 
-export default class DrawerPage extends Component{
+export default class DrawerPage extends Component {
 
     constructor() {
         super();
+    }
+
+    componentDidMount() {
+        console.log('DrawerPage=>componentDidMount',);
+    }
+
+    componentWillUnmount() {
+        console.log('DrawerPage=>componentWillUnmount',);
     }
 
     render() {

@@ -18,7 +18,6 @@ export default class BarIconContainer extends Component {
     }
 
     render() {
-        console.log('BarIconContainer=>', this.props.children);
         return (
             <TouchableNativeFeedback
                 style={styles.container}

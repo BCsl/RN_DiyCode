@@ -19,6 +19,7 @@ HTTPUtil.get = function (url, params, headers) {
             url += '&' + paramsArray.join('&')
         }
     }
+    console.log('fetch ', url);
     return new Promise(function (resolve, reject) {
         fetch(url, {
             method: 'GET',
@@ -49,6 +50,7 @@ HTTPUtil.get = function (url, params, headers) {
  * @returns {Promise}
  */
 HTTPUtil.post = function (url, formData, headers) {
+    console.log('fetch ', url, ' formData:', formData);
     return new Promise(function (resolve, reject) {
         fetch(url, {
             method: 'POST',

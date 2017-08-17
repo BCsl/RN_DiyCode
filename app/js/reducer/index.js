@@ -1,19 +1,11 @@
 /**
  * Created by chensuilun on 2017/8/10.
  */
-import {combineReducers} from 'redux'
-
-const homeInitState = {}
-
-const homeReducer = function (state = homeInitState, action) {
-    switch (action.type) {
-        default:
-            return state;
-    }
-    return state;
-
-}
+import {combineReducers} from 'redux';
+import  NavigatorReducer from './NavigatorReducer';
+import  HomeReducer from './HomeReducer';
 
 export default  combineReducers({
-    home: homeReducer,
+    home: HomeReducer,
+    nav: NavigatorReducer,
 })
