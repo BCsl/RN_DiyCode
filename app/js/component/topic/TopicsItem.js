@@ -52,7 +52,7 @@ export default class NewsItem extends Component {
                             {this.props.item.user.name}
                         </Text>
                         <Text style={styles.category}>
-                            {this.props.item.node_name}
+                            {`·\t${this.props.item.node_name}`}
                         </Text>
                         <View style={styles.headerTime}>
                             <Text style={styles.time}>
@@ -81,13 +81,13 @@ const
             paddingRight: 16,
             flexDirection: 'column',
             flex: 1,
-            backgroundColor:'#ffffff',
+            backgroundColor: '#ffffff',
         },
 
         header: {
             alignItems: 'center',
             flexDirection: 'row',
-            marginBottom: 9,
+            marginBottom: 12,
         },
 
         headerTime: {
@@ -109,15 +109,16 @@ const
         author: {
             marginLeft: 6,
             marginRight: 6,
-            fontSize: 14,
+            fontSize: 12,
             color: '#b6b7ba',
+            fontWeight: `bold`,
         },
         time: {
-            fontSize: 14,
+            fontSize: 12,
             color: '#b6b7ba',
         },
         category: {
-            fontSize: 14,
+            fontSize: 12,
             color: '#b6b7ba',
         },
     });

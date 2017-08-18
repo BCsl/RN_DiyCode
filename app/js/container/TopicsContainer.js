@@ -1,9 +1,10 @@
 /**
  * Created by chensuilun on 2017/8/15.
  */
-import {connect} from 'react-redux'
-import TopicsPage from '../component/topic/TopicsPager'
-import {homeRefreshAction, homeLoadMoreAction}from '../action/HomeAction'
+import {connect} from 'react-redux';
+import TopicsPage from '../component/topic/TopicsPager';
+import {topicsRefreshAction, topicsLoadMoreAction} from '../action/HomeAction';
+import {NavigationActions} from 'react-navigation';
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -16,15 +17,20 @@ const mapDispatchToProps = (dispatch) => {
     return {
         refresh: ()=> {
             "use strict";
-            dispatch(homeRefreshAction());
+            dispatch(topicsRefreshAction());
         },
         loadMore: (page)=> {
             "use strict";
-            dispatch(homeLoadMoreAction(page));
+            dispatch(topicsLoadMoreAction(page));
         },
         onTopicClick: (index, item) => {
-            console.log('onTopicClick');
-        }
+            let action = NavigationActions.navigate(
+                {
+                    routeName: 'TopicDetail',
+                    params: {id: item.id},
+                });
+            dispatch(action);
+        },
     }
 }
 

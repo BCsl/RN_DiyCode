@@ -16,7 +16,7 @@ import BarIconContainer from './common/BarIconContainer';
 import HomeTab from '../navigators/HomeTab';
 import DrawerPage from './DrawerPage';
 import {addNavigationHelpers, NavigationActions} from 'react-navigation';
-import {homeRefreshAction, homeLoadMoreAction}from '../action/HomeAction'
+import {topicsRefreshAction, topicsLoadMoreAction}from '../action/HomeAction'
 
 class Home extends Component {
 

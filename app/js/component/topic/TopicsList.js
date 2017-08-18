@@ -29,7 +29,7 @@ export default class NewsList extends Component {
 
     render() {
         let {onRefresh, isRefreshing, iaLoading} = this.props;
-        let footerComponent = iaLoading ? this._renderFooter : this._renderFooter;
+        let footerComponent = iaLoading ? this._renderLoadingFooter : this._renderLoadingFooter;
         return (
             <FlatList
                 keyExtractor={(item, index)=>index}
@@ -64,14 +64,19 @@ export default class NewsList extends Component {
         return (<View style={styles.header }/>);
     }
 
-    _renderFooter() {
+    _renderLoadingFooter() {
         return (<View style={styles.footer }>
-            <Text style={styles.footerText}>Loading...</Text>
+            <Text style={styles.footerText}>--- Loading... ---</Text>
+        </View>);
+    }
+
+    _renderErrorFooter() {
+        return (<View style={styles.footer }>
+            <Text style={styles.footerText}>--- something error,click to retry! ---</Text>
         </View>);
     }
 
     _onPressItem(index, item) {
-        ToastAndroid.show('press item ' + index, ToastAndroid.SHORT);
         this.props.onTopicClick(index, item);
     }
 

@@ -2,10 +2,10 @@
  * Created by chensuilun on 2017/8/14.
  */
 import React, {Component} from 'react';
-import HomeDrawer from './HomeDrawer';
-import SettingPage from '../component/SettingPage';
 import {StackNavigator} from 'react-navigation';
+import SettingPage from '../component/SettingPage';
 import Home from '../component/Home';
+import DetailContainer from '../container/DetailContainer';
 
 export default AppStack = StackNavigator({
     Home: {
@@ -13,6 +13,9 @@ export default AppStack = StackNavigator({
     },
     Setting: {
         screen: SettingPage,
+    },
+    TopicDetail: {
+        screen: DetailContainer,
     }
 });
 
