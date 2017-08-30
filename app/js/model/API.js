@@ -36,7 +36,7 @@ export function getNewList(offest, limit, cacheable = false) {
             storage.save({
                 key: MAIN_NEWS_LIST,
                 data: ret,
-                expires: 5000 * 60,
+                expires: 10 * 60 * 1000,
             });
         }
         return ret;
@@ -91,7 +91,7 @@ export function getTopicList(offset, limit, cacheable = false) {
             storage.save({
                 key: MAIN_TOPICS_LIST,
                 data: ret,
-                expires: 5000 * 60,
+                expires: 10 * 60 * 1000,
             });
         }
         return ret;

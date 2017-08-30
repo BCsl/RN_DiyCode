@@ -38,7 +38,6 @@ class App extends Component {
 }
 //接收全部状态
 const mapStateToProps = (state) => {
-    console.log('App mapStateToProps=>', state);
     return {...state}
 };
 

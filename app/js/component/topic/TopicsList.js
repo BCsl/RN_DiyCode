@@ -81,7 +81,9 @@ export default class NewsList extends Component {
     }
 
     _renderItem({item, index}) {
-        console.log('index:' + index + ",title:" + item.title);
+        if (false) {
+            console.log('index:' + index + ",title:" + item.title);
+        }
         return (<NewItems item={item} pressedListener={this._onPressItem} index={index}/>);
     }
 

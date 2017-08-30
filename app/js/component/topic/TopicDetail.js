@@ -12,19 +12,33 @@ import {
     WebView,
 } from 'react-native';
 import Colors from '../../../res/Colors';
-import Markdown from 'react-native-simple-markdown';
-import MyWebView from 'react-native-webview-autoheight';
+import ExtWebView from '../common/ExtWebView';
 
-const customStyle = "<style>* {max-width: 100%;} body {font-family: sans-serif;} h1 {color: red;}</style>";
+import marked from 'marked';
+
+const VIEW_URL = 'file:///android_asset/html/markdown.html';
+
 
 export default class TopicDetail extends Component {
 
     constructor() {
         super();
+        this._onLoadEnd = this._onLoadEnd.bind(this);
         this.backPressHandler = ()=> {
             this.props.navigation.goBack();
             return true;
         };
+        this.html1 = `<style>img{max-width: 100%;}</style><p><img src="https://diycode.b0.upaiyun.com/photo/2017/441c258bb27695595d1594cc46730dc3.jpg"/></p><p>Tags are great for describing the essence of your story in a single word or phrase, but stories are rarely about a single thing. <span>If I pen a story about moving across the country to start a new job in a car with my husband, two cats, a dog, and a tarantula, I wouldn’t only tag the piece with “moving”. I’d also use the tags “pets”, “marriage”, “career change”, and “travel tips”.</span></p>`;
+        marked.setOptions({
+            renderer: new marked.Renderer(),
+            gfm: true,
+            tables: true,
+            breaks: true,
+            pedantic: false,
+            sanitize: false,
+            smartLists: true,
+            smartypants: false
+        });
     }
 
     static navigationOptions = ({navigation}) => ({
@@ -67,21 +81,32 @@ export default class TopicDetail extends Component {
         );
     }
 
+    _onLoadEnd() {
+        let {result} = this.props;
+        // let markdownText = result.body.replace(/\r\n/g, "\n");// \r\n 转成 \n
+        // let setBody = `setMarkdown(String('${markdownText}'));`;
+        let htmlText = marked(result.body).replace(/\r\n/g, "\\n").replace(/\n/g, "\\n"); //换成显式的\n,方便 debug
+        let setBody = `setBody(String('${htmlText}'));`;
+        this.refs.webView.injectJavaScript(setBody);
+    }
+
 
     _renderContent() {
-        let {result} = this.props;
         return (
             <ScrollView style={styles.container}>
                 <View style={styles.container}>
-                    <MyWebView
+                    <ExtWebView
+                        ref="webView"
                         style={styles.webView}
-                        renderError={this._renderError}
-                        mixedContentMode={"compatibility"}
+                        javaScriptEnabled={true}
+                        onMessage={this._onMessage}
+                        automaticallyAdjustContentInsets={true}
+                        domStorageEnabled={true}
                         scalesPageToFit={true}
-                        scrollEnabled={false}
+                        onLoadEnd={this._onLoadEnd}
                         source={
                         {
-                            html: customStyle + result.body_html
+                            uri: VIEW_URL,
                         }
                         }
                     />
@@ -90,24 +115,12 @@ export default class TopicDetail extends Component {
         );
     }
 
-    _renderMarkdownContent() {
-        let {result} = this.props;
-        return (
-            <ScrollView style={styles.container}>
-                <View style={styles.container}>
-                    <Markdown styles={markdownStyles}>{result.body}</Markdown>
-                </View>
-            </ScrollView>
-        );
-    }
-
-
     _renderError() {
         return (<Text> Error</Text>);
     }
 
-
 }
+
 const markdownStyles = {
     heading1: {
         fontSize: 24,
@@ -131,7 +144,6 @@ const styles = StyleSheet.create({
         height: 80,
     },
     webView: {
-        margin: 16,
         flex: 1,
     },
 });
