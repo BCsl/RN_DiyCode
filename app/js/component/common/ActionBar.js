@@ -11,6 +11,7 @@ import {
     ColorPropType,
 } from 'react-native';
 import Colors from  '../../../res/Colors'
+import Images from  '../../../res/Images'
 import PropTypes from 'prop-types';
 
 export default class ActionBar extends Component {
@@ -38,7 +39,7 @@ export default class ActionBar extends Component {
 ActionBar.defaultProps = {
     title: undefined,
     titleColor: Colors.primaryTextDrak,
-    icon: require('../../../res/image/ic_arrow_back_black_24dp.png'),
+    icon: Images.common.ic_arrow_back_black,
     logo: undefined,
     onIconClicked: undefined,
     actions: [],

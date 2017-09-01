@@ -11,11 +11,10 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import Color from '../../res/Colors';
+import {Colors, Images} from '../../res';
 import BarIconContainer from './common/BarIconContainer';
 import HomeTab from '../navigators/HomeTab';
 import DrawerPage from './DrawerPage';
-import {addNavigationHelpers, NavigationActions} from 'react-navigation';
 
 class Home extends Component {
 
@@ -38,18 +37,18 @@ class Home extends Component {
                 <View style={{
                     flexDirection: "row",
                     height: 56,
-                    backgroundColor: Color.colorPrimary,
+                    backgroundColor: Colors.colorPrimary,
                     alignItems: 'center'
                 }}>
                     <BarIconContainer onPressListener={()=> {
                         this.refs['homeDrawer'].openDrawer();
                     }}>
                         <Image style={BarIconContainer.image()}
-                               source={require('../../res/image/ic_menu_black_24dp.png')}
+                               source={Images.common.ic_menu_back}
                         ></Image>
                     </BarIconContainer>
                     <Image style={{width: 100, height: 24, resizeMode: 'contain'}}
-                           source={require('../../res/image/ic_logo.png')}
+                           source={Images.common.ic_logo}
                     ></Image>
                 </View>
             </View>

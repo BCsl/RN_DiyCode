@@ -11,7 +11,7 @@ import {
     ActivityIndicator,
     WebView,
 } from 'react-native';
-import Colors from '../../../res/Colors';
+import {Colors} from '../../../res';
 import ExtWebView from '../common/ExtWebView';
 
 import marked from 'marked';
