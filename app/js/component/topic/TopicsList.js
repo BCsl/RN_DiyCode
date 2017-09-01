@@ -66,7 +66,7 @@ export default class NewsList extends Component {
 
     _renderLoadingFooter() {
         return (<View style={styles.footer }>
-            <Text style={styles.footerText}>--- Loading... ---</Text>
+            <Text style={styles.footerText}>Loading...</Text>
         </View>);
     }
 

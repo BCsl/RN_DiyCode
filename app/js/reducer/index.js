@@ -3,11 +3,13 @@
  */
 import {combineReducers} from 'redux';
 import  NavigatorReducer from './NavigatorReducer';
-import  HomeReducer from './HomeReducer';
-import  TopicDetailReducer from './TopicDetailReducer';
+import  Topics from './topic/';
+import  UserReducer from './UserReducer';
+import  NodeReducer from './NodeReducer';
 
 export default  combineReducers({
-    home: HomeReducer,
     nav: NavigatorReducer,
-    detail: TopicDetailReducer,
+    topic: Topics,
+    user: UserReducer,
+    node: NodeReducer,
 })

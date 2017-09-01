@@ -3,12 +3,25 @@
  */
 import {connect} from 'react-redux';
 import TopicsPage from '../component/topic/TopicsPager';
-import {topicsRefreshAction, topicsLoadMoreAction} from '../action/HomeAction';
+import {topicsRefreshAction, topicsLoadMoreAction} from '../action/TopicAction';
 import {NavigationActions} from 'react-navigation';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
+    let {list, postDetail} = state.topic;
+    let users = state.user;
+    let nodes = state.node;
+    let topicList = [];
+    if (list && list.result) {
+        topicList = list.result.map(function (id) {
+            let topic = postDetail[id];
+            topic["user"] = users[topic.user_id];
+            topic["node_name"] = nodes[topic.node_id].name;
+            return topic;
+        });
+    }
     return {
-        ...state.home.topics,
+        ...list,
+        result: topicList,  //覆盖 result
         rootNavigator: state.nav,
     }
 }

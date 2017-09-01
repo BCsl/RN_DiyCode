@@ -16,7 +16,6 @@ import BarIconContainer from './common/BarIconContainer';
 import HomeTab from '../navigators/HomeTab';
 import DrawerPage from './DrawerPage';
 import {addNavigationHelpers, NavigationActions} from 'react-navigation';
-import {topicsRefreshAction, topicsLoadMoreAction}from '../action/HomeAction'
 
 class Home extends Component {
 
@@ -95,9 +94,6 @@ const styles = StyleSheet.create({
 //------------------redux--------------------------
 const mapStateToProps = (state, ownProps) => {
     return {
-        topics: state.home.topics,
-        news: state.home.news,
-        sites: state.home.sites,
         rootNavigator: state.nav,
     }
 }

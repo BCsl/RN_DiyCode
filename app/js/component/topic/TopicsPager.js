@@ -20,7 +20,6 @@ export default class TopicsPager extends Component {
     }
 
     componentDidMount() {
-        console.log('TopicsPager componentDidMount=>:', this.props);
         this._onRefresh();
     }
 
@@ -45,11 +44,11 @@ export default class TopicsPager extends Component {
 
     render() {
         console.log('TopicsPager render:', this.props);
-        if (this.props.isRefreshing && typeof this.props.result != 'object') {
+        if (this.props.isRefreshing && this.props.result.length <= 0) {
             console.log('loading');
             return this._renderLoading('Loading...');
         } else if (this.props.isError) {
-            return this._renderError(this.props.result);
+            return this._renderError(this.props.message);
         } else {
             console.log('list:', this.props.result);
             return this._renderList();

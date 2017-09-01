@@ -1,5 +1,5 @@
 /**
- * Created by chensuilun on 2017/8/14.
+ * Created by chensuilun on 2017/8/30.
  */
 import {
     TYPE_TOPIC_REFRESH_SUC,
@@ -8,40 +8,44 @@ import {
     TYPE_TOPIC_LOADING_MORE,
     TYPE_TOPIC_LOAD_MORE_ERR,
     TYPE_TOPIC_LOAD_MORE_SUC,
+}from '../../action/ActionTypes';
+
+import {
     OFFSET,
-}from '../action/HomeAction';
-//按照 https://juejin.im/post/59a16e2651882511264e8402?utm_source=gold_browser_extension 来设计
-const homeInitState = {
-    topics: {
-        hasMore: true,
-        isError: false,
-        isLoading: false,
-        isRefreshing: false,
-        curPage: 0,
-        result: null,
-    },
-    news: {
-        hasMore: true,
-        isError: false,
-        isLoading: false,
-        isRefreshing: false,
-        curPage: 0,
-        result: null,
-    },
-    sites: {}
-    ,
-    authors: {}
+}from '../../action/TopicAction';
+
+const listState = {
+    hasMore: true,
+    isError: false,
+    isLoading: false,
+    isRefreshing: false,
+    curPage: 0,
+    result: [],//topic id 数组
+};
+
+function getIds(result = []) {
+    let ids = [];
+    for (topic of result) {
+        ids.push(topic.id);
+    }
+    console.log('TopicListReducer', ids);
+    return ids;
 }
-
-
-const _topicsReducer = function (state, action) {
+/**
+ * 首页的主题列表状态
+ * @param state
+ * @param action
+ * @returns {*}
+ */
+const topicsListReducer = function (state = listState, action) {
     switch (action.type) {
         case TYPE_TOPIC_REFRESH_SUC:
             return Object.assign({}, state, {
                 isLoading: false,
                 isRefreshing: false,
                 isError: false,
-                result: action.result,
+                message: "suc",
+                result: getIds(action.result),
                 curPage: 1,
                 hasMore: action.result.length >= OFFSET,
             });
@@ -51,7 +55,7 @@ const _topicsReducer = function (state, action) {
                 isLoading: false,
                 isRefreshing: false,
                 isError: true,
-                result: action.result.message
+                message: action.result.message,
             });
             break;
         case TYPE_TOPIC_REFRESHING :
@@ -59,7 +63,7 @@ const _topicsReducer = function (state, action) {
                 isLoading: false,
                 isRefreshing: true,
                 isError: false,
-                result: action.result
+                message: action.result
             });
             break;
         case TYPE_TOPIC_LOADING_MORE :
@@ -67,6 +71,7 @@ const _topicsReducer = function (state, action) {
                 isLoading: true,
                 isRefreshing: false,
                 isError: false,
+                message: 'loading more',
             });
             break;
         case TYPE_TOPIC_LOAD_MORE_ERR :
@@ -74,6 +79,7 @@ const _topicsReducer = function (state, action) {
                 isLoading: false,
                 isRefreshing: false,
                 isError: true,
+                message: 'load more error',
             });
             break;
         case TYPE_TOPIC_LOAD_MORE_SUC :
@@ -81,7 +87,8 @@ const _topicsReducer = function (state, action) {
                 isLoading: false,
                 isRefreshing: false,
                 isError: false,
-                result: state.result.slice().concat(action.result),
+                message: 'loading more suc',
+                result: state.result.slice().concat(getIds(action.result)),
                 curPage: state.curPage + 1,
                 hasMore: action.result.length >= OFFSET,
             });
@@ -91,20 +98,4 @@ const _topicsReducer = function (state, action) {
     }
 }
 
-export default homeReducer = function (state = homeInitState, action) {
-    switch (action.type) {
-        case TYPE_TOPIC_REFRESH_SUC:
-        case TYPE_TOPIC_REFRESH_ERR :
-        case TYPE_TOPIC_REFRESHING :
-        case TYPE_TOPIC_LOADING_MORE :
-        case TYPE_TOPIC_LOAD_MORE_ERR :
-        case TYPE_TOPIC_LOAD_MORE_SUC :
-            return Object.assign({}, state, {topics: _topicsReducer(state.topics, action)});
-            break;
-        default:
-            return state;
-    }
-    return state;
-}
-
-
+export default topicsListReducer;

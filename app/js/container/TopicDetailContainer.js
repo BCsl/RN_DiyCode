@@ -3,11 +3,22 @@
  */
 import {connect} from  'react-redux';
 import TopicDetail from '../component/topic/TopicDetail';
-import {getTopicDetailAction, getTopicRepliesAction} from '../action/HomeAction';
+import {getTopicDetailAction, getTopicRepliesAction} from '../action/TopicAction';
 
 const mapStateToProps = (state, ownProps) => {
+    let {cruDetail, postDetail} =state.topic;
+    let users = state.user;
+    let nodes = state.node;
+    let detail = null;
+    if (cruDetail.topicId) {
+        console.log('TopicDetailContainer id', cruDetail.topicId);
+        detail = postDetail[cruDetail.topicId];
+        detail["user"] = users[detail.user_id];
+        detail["node_name"] = nodes[detail.node_id].name;
+    }
     return {
-        ...state.detail,
+        ...state.topic.cruDetail,
+        result: detail,
     }
 }
 

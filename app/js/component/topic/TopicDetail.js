@@ -28,16 +28,15 @@ export default class TopicDetail extends Component {
             this.props.navigation.goBack();
             return true;
         };
-        this.html1 = `<style>img{max-width: 100%;}</style><p><img src="https://diycode.b0.upaiyun.com/photo/2017/441c258bb27695595d1594cc46730dc3.jpg"/></p><p>Tags are great for describing the essence of your story in a single word or phrase, but stories are rarely about a single thing. <span>If I pen a story about moving across the country to start a new job in a car with my husband, two cats, a dog, and a tarantula, I wouldn’t only tag the piece with “moving”. I’d also use the tags “pets”, “marriage”, “career change”, and “travel tips”.</span></p>`;
         marked.setOptions({
             renderer: new marked.Renderer(),
             gfm: true,
             tables: true,
             breaks: true,
             pedantic: false,
-            sanitize: false,
+            sanitize: true,
             smartLists: true,
-            smartypants: false
+            smartypants: true
         });
     }
 
@@ -58,10 +57,10 @@ export default class TopicDetail extends Component {
     }
 
     render() {
-        let {isLoading, result, isError} = this.props;
-        if (isLoading) {
+        let {isTopicLoading, loadTopicError} = this.props;
+        if (isTopicLoading) {
             return this._renderLoading();
-        } else if (isError) {
+        } else if (loadTopicError) {
             return this._renderError();
         } else {
             return this._renderContent();
