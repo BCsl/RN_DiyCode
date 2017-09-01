@@ -24,6 +24,7 @@ import {
     TYPE_TOPIC_RELIES_LOADING,
     TYPE_TOPIC_RELIES_ERROR,
     TYPE_TOPIC_RELIES_SUC,
+    TYPE_TOPIC_RELIES_LOAD_MORE_SUC
 
 }from './ActionTypes';
 
@@ -95,7 +96,7 @@ export const getTopicRepliesAction = function (id = -1, page = 0) {
         dispatch({type: TYPE_TOPIC_RELIES_LOADING});
         const start = page * OFFSET_RELY;
         getTopicReplies(id, start, OFFSET_RELY).then(result => dispatch({
-                type: TYPE_TOPIC_RELIES_SUC,
+                type: page == 0 ? TYPE_TOPIC_RELIES_SUC : TYPE_TOPIC_RELIES_LOAD_MORE_SUC,
                 result: result,
             })
         ).catch(err => dispatch({

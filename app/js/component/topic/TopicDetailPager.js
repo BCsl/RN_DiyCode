@@ -12,6 +12,7 @@ import {
     ActivityIndicator,
     WebView,
     FlatList,
+    TouchableNativeFeedback,
 } from 'react-native';
 import {Colors} from '../../../res';
 import ExtWebView from '../common/ExtWebView';
@@ -24,16 +25,18 @@ const VIEW_URL = 'file:///android_asset/html/markdown.html';
 
 export default class TopicDetail extends Component {
 
+    webView = null;
+    topicId = null;
+
     constructor() {
         super();
         this._onLoadEnd = this._onLoadEnd.bind(this);
-        this._renderHeader = this._renderHeader.bind(this);
+        this._renderTopicHeader = this._renderTopicHeader.bind(this);
         this._renderRelies = this._renderRelies.bind(this);
         this._separator = this._separator.bind(this);
         this._renderReplyItem = this._renderReplyItem.bind(this);
         this._renderReplyEmpty = this._renderReplyEmpty.bind(this);
         this._renderReplyFooter = this._renderReplyFooter.bind(this);
-        this._renderReplyHeader = this._renderReplyHeader.bind(this);
         this._renderTopic = this._renderTopic.bind(this);
         this.backPressHandler = ()=> {
             this.props.navigation.goBack();
@@ -57,10 +60,10 @@ export default class TopicDetail extends Component {
 
     componentDidMount() {
         console.log('TopicDetail=>componentDidMount', this.props);
-        let {id} = this.props.navigation.state.params;
+        this.topicId = this.props.navigation.state.params.id;
         BackHandler.addEventListener('hardwareBackPress', this.backPressHandler);
-        this.props.getDetail(id);
-        this.props.getRelies(id, 0);
+        this.props.getDetail(this.topicId);
+        this.props.getRelies(this.topicId, 0);
     }
 
     componentWillUnmount() {
@@ -75,7 +78,7 @@ export default class TopicDetail extends Component {
         } else if (loadTopicError) {
             return this._renderError();
         } else {
-            return this._renderContent();
+            return this._renderRelies();
         }
     }
 
@@ -92,16 +95,64 @@ export default class TopicDetail extends Component {
         );
     }
 
+    /**
+     * 渲染评论列表,头部为主题的详细内容
+     * @returns {XML}
+     * @private
+     */
+    _renderRelies() {
+        console.log('TopicDetail_renderRelies ', this.props);
+        let {replyArray}=this.props;
+        return (
+            <View style={styles.container}>
+                <FlatList
+                    keyExtractor={(item, index)=>index}
+                    data={replyArray}
+                    renderItem={this._renderReplyItem}
+                    ListFooterComponent={this._renderReplyFooter}
+                    ListEmptyComponent={this._renderReplyEmpty}
+                    ListHeaderComponent={this._renderTopic()}
+                    ItemSeparatorComponent={this._separator}
+                >
+                </FlatList>
+            </View>
+        );
+    }
+
+    _renderTopic() {
+        return (
+            <View style={styles.container}>
+                {this._renderTopicHeader()}
+                <ExtWebView
+                    ref={ref=>this.webView = ref}
+                    style={styles.webView}
+                    javaScriptEnabled={true}
+                    onMessage={this._onMessage}
+                    automaticallyAdjustContentInsets={true}
+                    domStorageEnabled={true}
+                    scalesPageToFit={true}
+                    onLoadEnd={this._onLoadEnd}
+                    source={
+                    {
+                        uri: VIEW_URL,
+                    }
+                    }
+                />
+                {this._separator()}
+            </View>
+        );
+    }
+
     _onLoadEnd() {
         let {result} = this.props;
         // let markdownText = result.body.replace(/\r\n/g, "\n");// \r\n 转成 \n
         // let setBody = `setMarkdown(String('${markdownText}'));`;
         let htmlText = marked(result.body).replace(/\r\n/g, "\\n").replace(/\n/g, "\\n"); //换成显式的\n,方便 debug
         let setBody = `setBody(String('${htmlText}'));`;
-        this.refs.webView.injectJavaScript(setBody);
+        this.webView.injectJavaScript(setBody);
     }
 
-    _renderHeader() {
+    _renderTopicHeader() {
         let {result} = this.props;
         return (
             <View style={styles.header}>
@@ -123,32 +174,9 @@ export default class TopicDetail extends Component {
         );
     }
 
-    /**
-     * 渲染评论列表
-     * @returns {XML}
-     * @private
-     */
-    _renderRelies() {
-        console.log('TopicDetail_renderRelies ', this.props);
-        let {replyArray, isReliesLoading, isLoadReliesError}=this.props;
-        return (
-            <View style={styles.container}>
-                <FlatList
-                    keyExtractor={(item, index)=>index}
-                    data={replyArray}
-                    renderItem={this._renderReplyItem}
-                    ListFooterComponent={this._renderReplyFooter}
-                    ListEmptyComponent={this._renderReplyEmpty}
-                    ListHeaderComponent={this._renderReplyHeader}
-                    ItemSeparatorComponent={this._separator}
-                >
-                </FlatList>
-            </View>
-        );
-    }
 
     _renderReplyFooter() {
-        let {isReliesLoading, isLoadReliesError, hasMore}=this.props;
+        let {isReliesLoading, isLoadReliesError, hasMore, getRelies, curPage}=this.props;
         if (isReliesLoading) {
             //todo 2017/9/1
             return null;
@@ -156,21 +184,23 @@ export default class TopicDetail extends Component {
             //todo 2017/9/1
             return null;
         } else if (hasMore) {
-            return <View style={styles.footer}
-                         onPress={()=>console.log('TopicDetailPager load more')}>
-                <Text style={styles.author}>点击显示更多</Text>
-            </View>
+            return (
+                <TouchableNativeFeedback
+                    onPress={()=>getRelies(this.topicId, curPage)}
+                    background={TouchableNativeFeedback.SelectableBackground()}>
+                    <View style={styles.footer}>
+                        <Text style={styles.author}>点击显示更多</Text>
+                    </View>
+                </TouchableNativeFeedback>
+            );
         } else {
-            <View style={styles.footer}
-                  onPress={()=>console.log('TopicDetailPager not any more')}>
-                <Text style={styles.author}>没有更多评论了</Text>
-            </View>
+            return (<View style={styles.footer}
+                          onPress={()=>console.log('TopicDetailPager not any more')}>
+                    <Text style={styles.author}>没有更多数据了</Text>
+                </View>
+            );
         }
         return null;
-    }
-
-    _renderReplyHeader() {
-        return this._renderTopic();
     }
 
 
@@ -184,7 +214,7 @@ export default class TopicDetail extends Component {
 
     _renderReplyItem({item, index}) {
         return (<ReplyItem
-                rely={item}
+                reply={item}
                 pressIconListener={(id)=> {
                     console.log('TopicDetailPager click user ', id);
                 }}
@@ -196,55 +226,6 @@ export default class TopicDetail extends Component {
         return (<View style={styles.separator }/>);
     }
 
-    _renderTopic() {
-        return (
-            <View style={styles.container}>
-                {this._renderHeader()}
-                <ExtWebView
-                    ref="webView"
-                    style={styles.webView}
-                    javaScriptEnabled={true}
-                    onMessage={this._onMessage}
-                    automaticallyAdjustContentInsets={true}
-                    domStorageEnabled={true}
-                    scalesPageToFit={true}
-                    onLoadEnd={this._onLoadEnd}
-                    source={
-                    {
-                        uri: VIEW_URL,
-                    }
-                    }
-                />
-            </View>
-        );
-    }
-
-    _renderContent() {
-        // return (
-        //     <ScrollView style={styles.container}>
-        //         <View style={styles.container}>
-        //             {this._renderHeader()}
-        //             <ExtWebView
-        //                 ref="webView"
-        //                 style={styles.webView}
-        //                 javaScriptEnabled={true}
-        //                 onMessage={this._onMessage}
-        //                 automaticallyAdjustContentInsets={true}
-        //                 domStorageEnabled={true}
-        //                 scalesPageToFit={true}
-        //                 onLoadEnd={this._onLoadEnd}
-        //                 source={
-        //                 {
-        //                     uri: VIEW_URL,
-        //                 }
-        //                 }
-        //             />
-        //             {this._renderRelies()}
-        //         </View>
-        //     </ScrollView>
-        // );
-        return this._renderRelies();
-    }
 
     _renderError() {
         return (<Text> Error </Text>);

@@ -6,6 +6,7 @@ import {
     TYPE_TOPIC_LOAD_MORE_SUC,
     TYPE_TOPIC_DETAIL_SUC,
     TYPE_TOPIC_RELIES_SUC,
+    TYPE_TOPIC_RELIES_LOAD_MORE_SUC,
 }from '../../action/ActionTypes';
 
 //
@@ -94,6 +95,7 @@ const topicPostReducer = function (state = initState, action) {
             Object.assign(topic, getPost(action.result));
             return newState;
         case TYPE_TOPIC_RELIES_SUC:
+        case TYPE_TOPIC_RELIES_LOAD_MORE_SUC:
             //更新主题的评论列表
             if (action.result && action.result.length > 0) {
                 let relyState = Object.assign({}, state);

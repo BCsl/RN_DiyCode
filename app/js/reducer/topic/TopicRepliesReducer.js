@@ -4,6 +4,7 @@
 
 import {
     TYPE_TOPIC_RELIES_SUC,
+    TYPE_TOPIC_RELIES_LOAD_MORE_SUC,
 }from '../../action/ActionTypes';
 
 //{id:
@@ -36,6 +37,7 @@ function getReplies(result = []) {
 export default function topicReplies(state = {}, action) {
     switch (action.type) {
         case TYPE_TOPIC_RELIES_SUC:
+        case TYPE_TOPIC_RELIES_LOAD_MORE_SUC:
             return Object.assign({}, state, getReplies(action.result));
         default:
             return state;

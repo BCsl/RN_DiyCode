@@ -12,6 +12,7 @@ import {
     TYPE_TOPIC_RELIES_LOADING,
     TYPE_TOPIC_RELIES_ERROR,
     TYPE_TOPIC_RELIES_SUC,
+    TYPE_TOPIC_RELIES_LOAD_MORE_SUC,
 } from '../../action/ActionTypes';
 
 import {OFFSET_RELY} from '../../action/TopicAction'
@@ -67,11 +68,12 @@ export default function topicDetailReducer(state = initState, action) {
                 isReliesLoading: false,
                 isLoadReliesError: true,
             });
+        case TYPE_TOPIC_RELIES_LOAD_MORE_SUC:
         case TYPE_TOPIC_RELIES_SUC:
             return Object.assign({}, state, {
                 isReliesLoading: false,
                 isLoadReliesError: false,
-                curPage: state.curPage + 1,
+                curPage: action.type === TYPE_TOPIC_RELIES_SUC ? 1 : state.curPage + 1,
                 hasMore: action.result && action.result.length >= OFFSET_RELY,
                 reliesId: getReliesId(action.result),
             });

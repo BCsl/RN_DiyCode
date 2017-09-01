@@ -27,24 +27,24 @@ export default class ReplyItem extends Component {
     }
 
     render() {
-        let {rely, floorIndex, pressIconListener} = this.props;
+        let {reply, floorIndex, pressIconListener} = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Image style={styles.thumb}
-                           onPress={()=>pressIconListener(rely.user.id)}
-                           source={{uri: rely.user.avatar_url}}>
+                           onPress={()=>pressIconListener(reply.user.id)}
+                           source={{uri: reply.user.avatar_url}}>
                     </Image>
-                    <Text style={styles.author}>{rely.user.name}</Text>
-                    <Text style={styles.time}>{`·\t第${floorIndex + 1}楼`}</Text>
+                    <Text style={styles.author}>{reply.user.name}</Text>
+                    <Text style={styles.time}>{`·\t\t${floorIndex + 1}楼`}</Text>
                     <View style={styles.headerTime}>
                         <Text style={styles.time}>
-                            {rely.updated_at.substring(0, 10)}
+                            {reply.updated_at.substring(0, 10)}
                         </Text>
                     </View>
                 </View>
                 <Text style={styles.content}>
-                    {rely.body_html}
+                    {reply.body_html}
                 </Text>
             </View>
         )
@@ -54,7 +54,7 @@ export default class ReplyItem extends Component {
 ReplyItem.propTypes = {
     pressIconListener: PropTypes.func,
     floorIndex: PropTypes.number,
-    rely: PropTypes.shape({
+    reply: PropTypes.shape({
         id: PropTypes.number,
         body_html: PropTypes.string,
         topic_id: PropTypes.number,
