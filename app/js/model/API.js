@@ -129,6 +129,10 @@ export function getTopicDetail(id) {
  * @param id 主题 id
  * @returns {Promise}
  */
-export function getTopicReplies(id) {
-    return HTTPUtils.get(`${HOST}/topics/${id}/replies.json`);
+export function getTopicReplies(id, offest = 0, limit = 10) {
+    let param = {
+        offset: offest,
+        limit: limit,
+    };
+    return HTTPUtils.get(`${HOST}/topics/${id}/replies.json`, param);
 }

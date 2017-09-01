@@ -28,54 +28,94 @@ import{
     Image,
     TouchableNativeFeedback,
 }from 'react-native'
+import PropTypes from 'prop-types';
+import {Colors} from '../../../res'
 
 export default class NewsItem extends Component {
 
     constructor() {
         super();
+        this._renderRely = this._renderRely.bind(this);
     }
 
     componentDidMount() {
     }
 
+    _renderRely() {
+        let {replies_count} =this.props.item;
+        if (replies_count) {
+            return (
+                <View style={styles.replyContainer}>
+                    <Text style={styles.reply}>
+                        {`${replies_count} 条评论`}
+                    </Text>
+                </View>
+            );
+        } else {
+            return null;
+        }
+    }
+
     render() {
+        let {pressedListener, index, item} =this.props;
         return (
             <TouchableNativeFeedback
-                onPress={()=>this.props.pressedListener(this.props.index, this.props.item)}
+                onPress={()=>pressedListener(index, item)}
                 background={TouchableNativeFeedback.SelectableBackground()}>
                 <View style={styles.container}>
                     <View style={styles.header}>
                         <Image style={styles.thumb}
-                               source={{uri: this.props.item.user.avatar_url}}>
+                               source={{uri: item.user.avatar_url}}>
                         </Image>
                         <Text style={styles.author}>
-                            {this.props.item.user.name}
+                            {item.user.name}
                         </Text>
                         <Text style={styles.category}>
-                            {`·\t${this.props.item.node_name}`}
+                            {`·\t${item.node_name}`}
                         </Text>
                         <View style={styles.headerTime}>
                             <Text style={styles.time}>
-                                {this.props.item.updated_at.substring(0, 10)}
+                                {item.updated_at.substring(0, 10)}
                             </Text>
                         </View>
                     </View>
                     <Text style={styles.title}>
-                        {this.props.item.title}
+                        {item.title}
                     </Text>
+                    {this._renderRely()}
                 </View>
             </TouchableNativeFeedback>
         )
     }
+}
 
+
+NewsItem.propTypes = {
+    pressedListener: PropTypes.func,
+    index: PropTypes.number,
+    item: PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+        created_at: PropTypes.string,
+        updated_at: PropTypes.string,
+        replies_count: PropTypes.number,
+        node_id: PropTypes.number,
+        node_name: PropTypes.string,
+        user: PropTypes.shape({
+            id: PropTypes.number,
+            login: PropTypes.string,
+            name: PropTypes.string,
+            avatar_url: PropTypes.string,
+        }),
+    }),
 }
 
 
 const
     styles = StyleSheet.create({
         container: {
-            paddingTop: 21,
-            paddingBottom: 21,
+            paddingTop: 16,
+            paddingBottom: 16,
             paddingLeft: 16,
             justifyContent: 'center',
             paddingRight: 16,
@@ -103,22 +143,32 @@ const
         },
         title: {
             fontSize: 16,
-            color: '#212121',
+            color: Colors.primaryTextDark,
             textAlign: 'left',
         },
         author: {
             marginLeft: 6,
             marginRight: 6,
             fontSize: 12,
-            color: '#b6b7ba',
+            color: Colors.textGray,
             fontWeight: `bold`,
         },
         time: {
             fontSize: 12,
-            color: '#b6b7ba',
+            color: Colors.textGray,
         },
         category: {
             fontSize: 12,
-            color: '#b6b7ba',
+            color: Colors.textGray,
         },
+        replyContainer: {
+            marginTop: 6,
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            flex: 1,
+        },
+        reply: {
+            fontSize: 12,
+            color: Colors.secondaryTextDark,
+        }
     });

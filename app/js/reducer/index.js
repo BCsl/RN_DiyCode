@@ -7,7 +7,7 @@ import  Topics from './topic/';
 import  UserReducer from './UserReducer';
 import  NodeReducer from './NodeReducer';
 
-export default  combineReducers({
+export default combineReducers({
     nav: NavigatorReducer,
     topic: Topics,
     user: UserReducer,

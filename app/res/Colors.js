@@ -7,6 +7,7 @@ export default {
     colorPrimaryDark: '#FFFFFF',
     colorAccent: '#DB3937',
     colorInactive: '#C8C8CE',
-    primaryTextDrak: '#212121',
-    secondaryTextDrak: '#727272',
+    primaryTextDark: '#212121',
+    secondaryTextDark: '#727272',
+    textGray: '#b6b7ba',
 }

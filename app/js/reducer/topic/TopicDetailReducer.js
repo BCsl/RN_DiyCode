@@ -14,14 +14,28 @@ import {
     TYPE_TOPIC_RELIES_SUC,
 } from '../../action/ActionTypes';
 
+import {OFFSET_RELY} from '../../action/TopicAction'
+
 const initState = {
     isTopicLoading: true,
     message: '',
     loadTopicError: false,
     topicId: undefined, //id
-    reliesId: undefined,    //id数组
+    reliesId: [],    //id数组
+    isReliesLoading: false,
+    isLoadReliesError: false,
+    curPage: 0,
+    hasMore: true,
 };
 
+function getReliesId(result = []) {
+    let ids = [];
+    for (let rely of result) {
+        ids.push(rely.id);
+    }
+    console.log('TopicDetailReducer TopicDetailReducer ', ids);
+    return ids;
+}
 export default function topicDetailReducer(state = initState, action) {
     switch (action.type) {
         case TYPE_TOPIC_DETAIL_LOADING:
@@ -44,11 +58,23 @@ export default function topicDetailReducer(state = initState, action) {
                 topicId: action.result.id
             });
         case TYPE_TOPIC_RELIES_LOADING:
-            break;
+            return Object.assign({}, state, {
+                isReliesLoading: true,
+                isLoadReliesError: false,
+            });
         case TYPE_TOPIC_RELIES_ERROR:
-            break;
+            return Object.assign({}, state, {
+                isReliesLoading: false,
+                isLoadReliesError: true,
+            });
         case TYPE_TOPIC_RELIES_SUC:
-            break;
+            return Object.assign({}, state, {
+                isReliesLoading: false,
+                isLoadReliesError: false,
+                curPage: state.curPage + 1,
+                hasMore: action.result && action.result.length >= OFFSET_RELY,
+                reliesId: getReliesId(action.result),
+            });
         default :
             return state;
     }

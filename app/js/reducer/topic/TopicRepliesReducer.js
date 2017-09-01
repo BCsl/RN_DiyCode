@@ -17,27 +17,26 @@ import {
 //     "likes_count": 0,
 //  }
 //}
-function getRelies(result = []) {
-    let relyMap = {};
-    for (let rely of result) {
-        relyMap[rely.id] = {
-            id: rely.id,
-            body_html: rely.body_html,
-            created_at: rely.created_at,
-            updated_at: rely.updated_at,
-            topic_id: rely.topic_id,
-            likes_count: rely.likes_count,
-            userId: rely.user.id,
+function getReplies(result = []) {
+    let replyMap = {};
+    for (let reply of result) {
+        replyMap[reply.id] = {
+            id: reply.id,
+            body_html: reply.body_html,
+            created_at: reply.created_at,
+            updated_at: reply.updated_at,
+            topic_id: reply.topic_id,
+            likes_count: reply.likes_count,
+            userId: reply.user.id,
         };
     }
-    console.log('TopicReliesReducer', relyMap);
-    return relyMap;
-
+    console.log('TopicReliesReducer getReplies ', replyMap);
+    return replyMap;
 }
-export default function topicRelies(state = {}, action) {
+export default function topicReplies(state = {}, action) {
     switch (action.type) {
         case TYPE_TOPIC_RELIES_SUC:
-            return Object.assign({}, state, getRelies(action.result));
+            return Object.assign({}, state, getReplies(action.result));
         default:
             return state;
     }

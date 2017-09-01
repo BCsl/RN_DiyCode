@@ -38,7 +38,7 @@ export default class ActionBar extends Component {
 
 ActionBar.defaultProps = {
     title: undefined,
-    titleColor: Colors.primaryTextDrak,
+    titleColor: Colors.primaryTextDark,
     icon: Images.common.ic_arrow_back_black,
     logo: undefined,
     onIconClicked: undefined,

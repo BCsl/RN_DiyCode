@@ -28,8 +28,12 @@ import {
 }from './ActionTypes';
 
 export const OFFSET = 20;
+export const OFFSET_RELY = 10;
 
-
+/**
+ * 主题页更新 Action
+ * @returns {Function}
+ */
 export const topicsRefreshAction = function () {
     return function (dispatch) {
         console.log('topicsRefreshAction starting');
@@ -43,7 +47,11 @@ export const topicsRefreshAction = function () {
         }));
     }
 }
-
+/**
+ * 主题列表加载更多
+ * @param page
+ * @returns {Function}
+ */
 export const topicsLoadMoreAction = function (page = 1) {
     return function (dispatch) {
         dispatch({type: TYPE_TOPIC_LOADING_MORE, result: "Loading more..."});
@@ -57,7 +65,11 @@ export const topicsLoadMoreAction = function (page = 1) {
         }));
     }
 }
-
+/**
+ * 获取主题详情
+ * @param id
+ * @returns {Function}
+ */
 export const getTopicDetailAction = function (id = -1) {
     return function (dispatch) {
         dispatch({type: TYPE_TOPIC_DETAIL_LOADING});
@@ -72,11 +84,17 @@ export const getTopicDetailAction = function (id = -1) {
     }
 }
 
-
-export const getTopicRepliesAction = function (id = -1) {
+/**
+ * 获取主题回复
+ * @param id
+ * @param page 页数,默认0
+ * @returns {Function}
+ */
+export const getTopicRepliesAction = function (id = -1, page = 0) {
     return function (dispatch) {
         dispatch({type: TYPE_TOPIC_RELIES_LOADING});
-        getTopicReplies(id).then(result => dispatch({
+        const start = page * OFFSET_RELY;
+        getTopicReplies(id, start, OFFSET_RELY).then(result => dispatch({
                 type: TYPE_TOPIC_RELIES_SUC,
                 result: result,
             })

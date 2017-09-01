@@ -23,7 +23,7 @@ function getUsersFromPost(posts = []) {
     for (let post of posts) {
         userMap[post.user.id] = post.user;
     }
-    console.log('UserReducer', userMap);
+    console.log('UserReducer getUsersFromPost ', userMap);
     return userMap;
 }
 
@@ -34,6 +34,7 @@ export default function userReducer(state = {}, action) {
         case TYPE_TOPIC_LOAD_MORE_SUC :
             return Object.assign({}, state, getUsersFromPost(action.result));
         case TYPE_TOPIC_RELIES_SUC:
+            //记录主题回复中的用户列表
             return Object.assign({}, state, getUsersFromPost(action.result));
         default:
             return state;

@@ -35,12 +35,12 @@ import {
 //     "followed": null,
 //     "liked": null,
 //     "favorited": null
-//      "replies":{id....}
+//      "repliesId":{id....}
 // }
 // },
 
 //{id0 : post0 ,id1 : post1...idN : postN }
-const initState = {};
+const initState = {repliesId: []};
 
 function getPosts(result = []) {
     let postMap = {};
@@ -49,7 +49,7 @@ function getPosts(result = []) {
     for (let topic of result) {
         postMap[topic.id] = getPost(topic);
     }
-    console.log('TopicPostReducer', postMap);
+    console.log('TopicPostReducer getPosts ', postMap);
     return postMap;
 }
 
@@ -90,11 +90,24 @@ const topicPostReducer = function (state = initState, action) {
         case TYPE_TOPIC_DETAIL_SUC:
             //主要是更新某个主题的详情
             let newState = Object.assign({}, state);
-            newState[action.result.id] = getPost(action.result);
+            let topic = newState[action.result.id];
+            Object.assign(topic, getPost(action.result));
             return newState;
         case TYPE_TOPIC_RELIES_SUC:
             //更新主题的评论列表
-            break;
+            if (action.result && action.result.length > 0) {
+                let relyState = Object.assign({}, state);
+                for (let reply of action.result) {
+                    let topic = relyState[reply.topic_id];
+                    if (topic["repliesId"]) {
+                        topic["repliesId"].push(reply.id);
+                    } else {
+                        topic["repliesId"] = [reply.id];
+                    }
+                }
+                return relyState;
+            }
+            return state;
         default:
             return state;
     }
