@@ -34,6 +34,7 @@ export default class TopicDetail extends Component {
         this._renderTopicHeader = this._renderTopicHeader.bind(this);
         this._renderRelies = this._renderRelies.bind(this);
         this._separator = this._separator.bind(this);
+        this._divider = this._divider.bind(this);
         this._renderReplyItem = this._renderReplyItem.bind(this);
         this._renderReplyEmpty = this._renderReplyEmpty.bind(this);
         this._renderReplyFooter = this._renderReplyFooter.bind(this);
@@ -103,23 +104,30 @@ export default class TopicDetail extends Component {
     _renderRelies() {
         console.log('TopicDetail_renderRelies ', this.props);
         let {replyArray}=this.props;
+        let footer = replyArray && replyArray.length > 0 ? this._renderReplyFooter : null;
         return (
             <View style={styles.container}>
                 <FlatList
                     keyExtractor={(item, index)=>index}
                     data={replyArray}
                     renderItem={this._renderReplyItem}
-                    ListFooterComponent={this._renderReplyFooter}
+                    ListFooterComponent={footer}
                     ListEmptyComponent={this._renderReplyEmpty}
-                    ListHeaderComponent={this._renderTopic()}
-                    ItemSeparatorComponent={this._separator}
+                    ListHeaderComponent={this._renderTopic}
+                    ItemSeparatorComponent={this._divider}
                 >
                 </FlatList>
             </View>
         );
     }
 
+    /**
+     * 主题详情页
+     * @returns {XML}
+     * @private
+     */
     _renderTopic() {
+        let {replies_count} = this.props.result;
         return (
             <View style={styles.container}>
                 {this._renderTopicHeader()}
@@ -138,7 +146,10 @@ export default class TopicDetail extends Component {
                     }
                     }
                 />
-                {this._separator()}
+                <View style={styles.replyHeader }>
+                    <Text style={[styles.time, {fontSize: 14}]}>{`回复(${replies_count})`}</Text>
+                </View>
+                {this._divider()}
             </View>
         );
     }
@@ -178,11 +189,25 @@ export default class TopicDetail extends Component {
     _renderReplyFooter() {
         let {isReliesLoading, isLoadReliesError, hasMore, getRelies, curPage}=this.props;
         if (isReliesLoading) {
-            //todo 2017/9/1
-            return null;
+            return (
+                <View style={styles.footer}>
+                    <ActivityIndicator
+                        color={Colors.colorAccent}
+                        animating={true}
+                        style={styles.indicator}
+                        size="small"
+                    />
+                </View>
+            );
         } else if (isLoadReliesError) {
-            //todo 2017/9/1
-            return null;
+            return ( <TouchableNativeFeedback
+                    onPress={()=>getRelies(this.topicId, curPage)}
+                    background={TouchableNativeFeedback.SelectableBackground()}>
+                    <View style={styles.footer}>
+                        <Text style={styles.author}>加载出错,点击重试</Text>
+                    </View>
+                </TouchableNativeFeedback>
+            );
         } else if (hasMore) {
             return (
                 <TouchableNativeFeedback
@@ -196,7 +221,7 @@ export default class TopicDetail extends Component {
         } else {
             return (<View style={styles.footer}
                           onPress={()=>console.log('TopicDetailPager not any more')}>
-                    <Text style={styles.author}>没有更多数据了</Text>
+                    <Text style={styles.author}>没有更多内容</Text>
                 </View>
             );
         }
@@ -224,6 +249,10 @@ export default class TopicDetail extends Component {
 
     _separator() {
         return (<View style={styles.separator }/>);
+    }
+
+    _divider() {
+        return (<View style={styles.divider }/>);
     }
 
 
@@ -283,6 +312,12 @@ const styles = StyleSheet.create({
         height: 5,
         backgroundColor: '#00000000'
     },
+    divider: {
+        height: 0.3,
+        backgroundColor: Colors.divider,
+        marginLeft: 8,
+        marginRight: 8,
+    },
     footer: {
         flex: 1,
         height: 60,
@@ -290,4 +325,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    replyHeader: {
+        flex: 1,
+        height: 42,
+        backgroundColor: '#ffffff',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        paddingLeft: 8,
+    }
 });

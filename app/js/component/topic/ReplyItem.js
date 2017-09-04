@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     content: {
         fontSize: 14,
         color: Colors.primaryTextDark,
+        marginLeft: 33,
     },
     headerTime: {
         alignItems: 'center',
