@@ -10,7 +10,8 @@ import {
     Image,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {Colors} from '../../../res'
+import {Colors} from '../../../res';
+import HTMLView from 'react-native-htmlview';
 
 export default class ReplyItem extends Component {
 
@@ -43,9 +44,10 @@ export default class ReplyItem extends Component {
                         </Text>
                     </View>
                 </View>
-                <Text style={styles.content}>
-                    {reply.body_html}
-                </Text>
+                <HTMLView
+                    value={reply.body_html}
+                    style={styles.content}
+                />
             </View>
         )
     }

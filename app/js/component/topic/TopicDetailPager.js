@@ -108,6 +108,7 @@ export default class TopicDetail extends Component {
         return (
             <View style={styles.container}>
                 <FlatList
+                    style={styles.list}
                     keyExtractor={(item, index)=>index}
                     data={replyArray}
                     renderItem={this._renderReplyItem}
@@ -149,7 +150,7 @@ export default class TopicDetail extends Component {
                 <View style={styles.replyHeader }>
                     <Text style={[styles.time, {fontSize: 14}]}>{`回复(${replies_count})`}</Text>
                 </View>
-                {this._divider()}
+                <View style={[styles.divider, {marginLeft: 0, marginRight: 0}]}/>
             </View>
         );
     }
@@ -313,15 +314,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#00000000'
     },
     divider: {
-        height: 0.3,
+        height: 1,
         backgroundColor: Colors.divider,
-        marginLeft: 8,
+        marginLeft: 41,
         marginRight: 8,
     },
     footer: {
         flex: 1,
         height: 60,
-        backgroundColor: '#00000000',
+        backgroundColor: Colors.divider,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -332,5 +333,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
         paddingLeft: 8,
+    },
+    list: {
+        backgroundColor: '#ffffff',
     }
 });

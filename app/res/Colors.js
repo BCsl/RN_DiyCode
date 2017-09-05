@@ -10,5 +10,5 @@ export default {
     primaryTextDark: '#212121',
     secondaryTextDark: '#727272',
     textGray: '#b6b7ba',
-    divider: '#b6b7ba',
+    divider: '#F3F3F3',
 }
