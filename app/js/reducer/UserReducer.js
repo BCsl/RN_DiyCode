@@ -22,6 +22,10 @@ import {
 function getUsersFromPost(posts = []) {
     let userMap = {};
     for (let post of posts) {
+        //https://www.diycode.cc/topics/411 fix avatar not show
+        if (post.user.avatar_url) {
+            post.user.avatar_url = post.user.avatar_url.replace('large_avatar','avatar');
+        }
         userMap[post.user.id] = post.user;
     }
     console.log('UserReducer getUsersFromPost ', userMap);

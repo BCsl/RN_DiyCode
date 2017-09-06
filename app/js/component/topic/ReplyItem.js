@@ -36,7 +36,8 @@ export default class ReplyItem extends Component {
                            onPress={()=>pressIconListener(reply.user.id)}
                            source={{uri: reply.user.avatar_url}}>
                     </Image>
-                    <Text style={styles.author}>{reply.user.name}</Text>
+                    <Text
+                        style={styles.author}>{reply.user.name ? reply.user.name : reply.user.login}</Text>
                     <Text style={styles.time}>{`·\t\t${floorIndex + 1}楼`}</Text>
                     <View style={styles.headerTime}>
                         <Text style={styles.time}>
@@ -47,6 +48,7 @@ export default class ReplyItem extends Component {
                 <HTMLView
                     value={reply.body_html}
                     style={styles.content}
+                    stylesheet={contentHtmlStyle}
                 />
             </View>
         )
@@ -100,8 +102,6 @@ const styles = StyleSheet.create({
         height: 25,
     },
     content: {
-        fontSize: 14,
-        color: Colors.primaryTextDark,
         marginLeft: 33,
     },
     headerTime: {
@@ -111,4 +111,15 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
 
+});
+
+const contentHtmlStyle = StyleSheet.create({
+    p: {
+        fontSize: 14,
+        color: Colors.secondaryTextDark,
+    },
+    a: {
+        fontSize: 14,
+        color:'#228fbd'
+    },
 });

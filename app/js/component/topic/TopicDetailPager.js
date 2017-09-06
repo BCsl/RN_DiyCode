@@ -39,6 +39,7 @@ export default class TopicDetail extends Component {
         this._renderReplyEmpty = this._renderReplyEmpty.bind(this);
         this._renderReplyFooter = this._renderReplyFooter.bind(this);
         this._renderTopic = this._renderTopic.bind(this);
+        this._renderLoadingReply = this._renderLoadingReply.bind(this);
         this.backPressHandler = ()=> {
             this.props.navigation.goBack();
             return true;
@@ -103,8 +104,9 @@ export default class TopicDetail extends Component {
      */
     _renderRelies() {
         console.log('TopicDetail_renderRelies ', this.props);
-        let {replyArray}=this.props;
+        let {replyArray, isReliesLoading}=this.props;
         let footer = replyArray && replyArray.length > 0 ? this._renderReplyFooter : null;
+        let emptyView = isReliesLoading && !footer ? this._renderLoadingReply : this._renderReplyEmpty;
         return (
             <View style={styles.container}>
                 <FlatList
@@ -113,7 +115,7 @@ export default class TopicDetail extends Component {
                     data={replyArray}
                     renderItem={this._renderReplyItem}
                     ListFooterComponent={footer}
-                    ListEmptyComponent={this._renderReplyEmpty}
+                    ListEmptyComponent={emptyView}
                     ListHeaderComponent={this._renderTopic}
                     ItemSeparatorComponent={this._divider}
                 >
@@ -190,16 +192,7 @@ export default class TopicDetail extends Component {
     _renderReplyFooter() {
         let {isReliesLoading, isLoadReliesError, hasMore, getRelies, curPage}=this.props;
         if (isReliesLoading) {
-            return (
-                <View style={styles.footer}>
-                    <ActivityIndicator
-                        color={Colors.colorAccent}
-                        animating={true}
-                        style={styles.indicator}
-                        size="small"
-                    />
-                </View>
-            );
+            return this._renderLoadingReply();
         } else if (isLoadReliesError) {
             return ( <TouchableNativeFeedback
                     onPress={()=>getRelies(this.topicId, curPage)}
@@ -227,6 +220,19 @@ export default class TopicDetail extends Component {
             );
         }
         return null;
+    }
+
+    _renderLoadingReply() {
+        return (
+            <View style={styles.footer}>
+                <ActivityIndicator
+                    color={Colors.colorAccent}
+                    animating={true}
+                    style={styles.indicator}
+                    size="small"
+                />
+            </View>
+        );
     }
 
 

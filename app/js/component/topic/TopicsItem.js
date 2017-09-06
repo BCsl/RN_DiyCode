@@ -68,7 +68,7 @@ export default class NewsItem extends Component {
                                source={{uri: item.user.avatar_url}}>
                         </Image>
                         <Text style={styles.author}>
-                            {item.user.name}
+                            {item.user.name ? item.user.name : item.user.login}
                         </Text>
                         <Text style={styles.category}>
                             {`·\t${item.node_name}`}
