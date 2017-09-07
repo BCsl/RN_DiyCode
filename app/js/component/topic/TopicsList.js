@@ -8,8 +8,9 @@ import{
     Text,
     View,
     StyleSheet,
-}from 'react-native'
-import NewItems  from './TopicsItem'
+}from 'react-native';
+import NewItems  from './TopicsItem';
+import ListFooter from '../common/ListFooter';
 
 export default class NewsList extends Component {
 
@@ -20,6 +21,8 @@ export default class NewsList extends Component {
         this._separator = this._separator.bind(this);
         this._renderEmpty = this._renderEmpty.bind(this);
         this._renderHeader = this._renderHeader.bind(this);
+        this._renderLoadingFooter = this._renderLoadingFooter.bind(this);
+        this._renderErrorFooter = this._renderErrorFooter.bind(this);
     }
 
     _onEndReached() {
@@ -65,15 +68,11 @@ export default class NewsList extends Component {
     }
 
     _renderLoadingFooter() {
-        return (<View style={styles.footer }>
-            <Text style={styles.footerText}>Loading...</Text>
-        </View>);
+        return <ListFooter state={"Loading"}/>;
     }
 
     _renderErrorFooter() {
-        return (<View style={styles.footer }>
-            <Text style={styles.footerText}>--- something error,click to retry! ---</Text>
-        </View>);
+        return <ListFooter state={"Error"} retryListener={()=>this.props.loadMore()}/>;
     }
 
     _onPressItem(index, item) {

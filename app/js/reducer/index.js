@@ -3,13 +3,15 @@
  */
 import {combineReducers} from 'redux';
 import  NavigatorReducer from './NavigatorReducer';
-import  Topics from './topic/';
+import  Topics from './topic';
 import  UserReducer from './UserReducer';
 import  NodeReducer from './NodeReducer';
+import  NewsReducer from './news';
 
 export default combineReducers({
     nav: NavigatorReducer,
     topic: Topics,
     user: UserReducer,
     node: NodeReducer,
+    news: NewsReducer,
 })

@@ -3,8 +3,6 @@
  */
 
 import {
-    getNewListFromCache,
-    getNewList,
     getTopicList,
     getTopicListFromCache,
     getTopicDetail,

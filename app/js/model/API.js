@@ -18,7 +18,7 @@ const storage = global.storage;
  * @param cacheable
  * @returns {Promise.<TResult>}
  */
-export function getNewList(offest, limit, cacheable = false) {
+export function getNewsList(offest, limit, cacheable = false) {
     let param = {
         offset: 0,
         limit: 20,
@@ -49,7 +49,7 @@ export function getNewList(offest, limit, cacheable = false) {
  * @param limit
  * @returns {Promise.<T>}
  */
-export function getNewListFromCache(offset, limit) {
+export function getNewsListFromCache(offset, limit) {
     return storage.load({
         key: MAIN_NEWS_LIST,
     }).then(ret => {

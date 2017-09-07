@@ -17,6 +17,7 @@ import {
 import {Colors} from '../../../res';
 import ExtWebView from '../common/ExtWebView';
 import ReplyItem from '../topic/ReplyItem';
+import ListFooter from '../common/ListFooter';
 
 import marked from 'marked';
 
@@ -194,44 +195,18 @@ export default class TopicDetail extends Component {
         if (isReliesLoading) {
             return this._renderLoadingReply();
         } else if (isLoadReliesError) {
-            return ( <TouchableNativeFeedback
-                    onPress={()=>getRelies(this.topicId, curPage)}
-                    background={TouchableNativeFeedback.SelectableBackground()}>
-                    <View style={styles.footer}>
-                        <Text style={styles.author}>加载出错,点击重试</Text>
-                    </View>
-                </TouchableNativeFeedback>
-            );
+            return <ListFooter retryListener={()=>getRelies(this.topicId, curPage)} state={"Error"}/>
         } else if (hasMore) {
-            return (
-                <TouchableNativeFeedback
-                    onPress={()=>getRelies(this.topicId, curPage)}
-                    background={TouchableNativeFeedback.SelectableBackground()}>
-                    <View style={styles.footer}>
-                        <Text style={styles.author}>点击显示更多</Text>
-                    </View>
-                </TouchableNativeFeedback>
-            );
+            return <ListFooter loadMoreListener={()=>getRelies(this.topicId, curPage)} state={"HasMore"}/>
         } else {
-            return (<View style={styles.footer}
-                          onPress={()=>console.log('TopicDetailPager not any more')}>
-                    <Text style={styles.author}>没有更多内容</Text>
-                </View>
-            );
+            return <ListFooter state={"NoMore"}/>
         }
         return null;
     }
 
     _renderLoadingReply() {
         return (
-            <View style={styles.footer}>
-                <ActivityIndicator
-                    color={Colors.colorAccent}
-                    animating={true}
-                    style={styles.indicator}
-                    size="small"
-                />
-            </View>
+            <ListFooter state={"Loading"}/>
         );
     }
 
@@ -298,7 +273,7 @@ const styles = StyleSheet.create({
         marginLeft: 6,
         marginRight: 6,
         fontSize: 12,
-        color: '#b6b7ba',
+        color: Colors.secondaryTextDark,
         fontWeight: `bold`,
     },
     headerTime: {

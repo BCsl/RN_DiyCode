@@ -55,7 +55,7 @@ function getPosts(result = []) {
 }
 
 function getPost(topic) {
-    return Object.assign({}, {
+    return {
         "id": topic.id,
         "title": topic.title,
         "created_at": topic.created_at,
@@ -70,7 +70,7 @@ function getPost(topic) {
         "body_html": topic.body_html,
         "hits": topic.hits,
         "likes_count": topic.likes_count,
-    });
+    };
 }
 
 

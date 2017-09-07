@@ -35,6 +35,9 @@ export default class ReplyItem extends Component {
                     <Image style={styles.thumb}
                            onPress={()=>pressIconListener(reply.user.id)}
                            source={{uri: reply.user.avatar_url}}>
+                        <Image
+                            style={[styles.thumb, {zIndex: -1}]}
+                            source={Images.common.ic_default_avatar}/>
                     </Image>
                     <Text
                         style={styles.author}>{reply.user.name ? reply.user.name : reply.user.login}</Text>
@@ -120,6 +123,6 @@ const contentHtmlStyle = StyleSheet.create({
     },
     a: {
         fontSize: 14,
-        color:'#228fbd'
+        color: '#228fbd'
     },
 });

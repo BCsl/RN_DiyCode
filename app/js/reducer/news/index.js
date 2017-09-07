@@ -1,56 +1,62 @@
 /**
- * Created by chensuilun on 2017/8/30.
+ * Created by chensuilun on 2017/9/7.
  */
 import {
-    TYPE_TOPIC_REFRESH_SUC,
-    TYPE_TOPIC_REFRESH_ERR,
-    TYPE_TOPIC_REFRESHING,
-    TYPE_TOPIC_LOADING_MORE,
-    TYPE_TOPIC_LOAD_MORE_ERR,
-    TYPE_TOPIC_LOAD_MORE_SUC,
-}from '../../action/ActionTypes';
+    TYPE_NEWS_REFRESH_SUC,
+    TYPE_NEWS_REFRESH_ERR,
+    TYPE_NEWS_REFRESHING,
+    TYPE_NEWS_LOADING_MORE,
+    TYPE_NEWS_LOAD_MORE_ERR,
+    TYPE_NEWS_LOAD_MORE_SUC,
+} from '../../action/ActionTypes';
 
 import {
     OFFSET,
-}from '../../action/TopicAction';
+} from  '../../action/NewsAction';
 
-const listState = {
-    hasMore: true,
-    isError: false,
+const initState = {
+    isRefreshing: true,
     isLoading: false,
-    isRefreshing: false,
+    isError: false,
+    hasMore: true,
     curPage: 0,
-    result: [],//topic id 数组
+    result: [],//news 数组
 };
 
-function getIds(result = []) {
-    let ids = [];
-    for (let topic of result) {
-        ids.push(topic.id);
+function getNewsArray(result = []) {
+    let newsArray = [];
+    for (let news of result) {
+        newsArray.push(getNews(news));
     }
-    console.log('TopicListReducer', ids);
-    return ids;
+    return newsArray;
 }
-/**
- * 首页的主题列表状态
- * @param state
- * @param action
- * @returns {*}
- */
-const topicsListReducer = function (state = listState, action) {
+
+function getNews(news) {
+    return {
+        "id": news.id,
+        "title": news.title,
+        "created_at": news.created_at,
+        "updated_at": news.updated_at,
+        "user_id": news.user.id,
+        "node_id": news.node_id,
+        "address": news.address,
+    };
+}
+
+export default newsReducer = function (state = initState, action) {
     switch (action.type) {
-        case TYPE_TOPIC_REFRESH_SUC:
+        case TYPE_NEWS_REFRESH_SUC :
             return Object.assign({}, state, {
                 isLoading: false,
                 isRefreshing: false,
                 isError: false,
                 message: "suc",
-                result: getIds(action.result),
+                result: getNewsArray(action.result),
                 curPage: 1,
-                hasMore: action.result.length >= OFFSET,
+                hasMore: action.result && action.result.length >= OFFSET,
             });
             break;
-        case TYPE_TOPIC_REFRESH_ERR :
+        case TYPE_NEWS_REFRESH_ERR :
             return Object.assign({}, state, {
                 isLoading: false,
                 isRefreshing: false,
@@ -58,7 +64,7 @@ const topicsListReducer = function (state = listState, action) {
                 message: action.result.message,
             });
             break;
-        case TYPE_TOPIC_REFRESHING :
+        case TYPE_NEWS_REFRESHING :
             return Object.assign({}, state, {
                 isLoading: false,
                 isRefreshing: true,
@@ -66,7 +72,7 @@ const topicsListReducer = function (state = listState, action) {
                 message: action.result
             });
             break;
-        case TYPE_TOPIC_LOADING_MORE :
+        case TYPE_NEWS_LOADING_MORE :
             return Object.assign({}, state, {
                 isLoading: true,
                 isRefreshing: false,
@@ -74,7 +80,7 @@ const topicsListReducer = function (state = listState, action) {
                 message: 'loading more',
             });
             break;
-        case TYPE_TOPIC_LOAD_MORE_ERR :
+        case TYPE_NEWS_LOAD_MORE_ERR :
             return Object.assign({}, state, {
                 isLoading: false,
                 isRefreshing: false,
@@ -82,13 +88,13 @@ const topicsListReducer = function (state = listState, action) {
                 message: 'load more error',
             });
             break;
-        case TYPE_TOPIC_LOAD_MORE_SUC :
+        case TYPE_NEWS_LOAD_MORE_SUC :
             return Object.assign({}, state, {
                 isLoading: false,
                 isRefreshing: false,
                 isError: false,
                 message: 'loading more suc',
-                result: state.result.slice().concat(getIds(action.result)),
+                result: state.result.slice().concat(getNewsArray(action.result)),
                 curPage: state.curPage + 1,
                 hasMore: action.result.length >= OFFSET,
             });
@@ -97,5 +103,3 @@ const topicsListReducer = function (state = listState, action) {
             return state;
     }
 }
-
-export default topicsListReducer;

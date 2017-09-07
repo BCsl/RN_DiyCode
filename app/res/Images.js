@@ -11,6 +11,8 @@ export default {
         ic_notifications_black: require('./image/ic_notifications_black_24dp.png'),
         ic_search_black: require('./image/ic_search_black_24dp.png'),
         ic_settings_black: require('./image/ic_settings_black_24dp.png'),
+        ic_like: require('./image/ic_like.png'),
+        ic_default_avatar: require('./image/ic_default_avatar.png'),
     },
 
 }

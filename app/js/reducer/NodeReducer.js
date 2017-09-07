@@ -5,6 +5,8 @@
 import {
     TYPE_TOPIC_REFRESH_SUC,
     TYPE_TOPIC_LOAD_MORE_SUC,
+    TYPE_NEWS_REFRESH_SUC,
+    TYPE_NEWS_LOAD_MORE_SUC,
 }from '../action/ActionTypes';
 
 //{node_id:
@@ -26,8 +28,10 @@ function getNodesFromPost(posts = []) {
 export default function nodeReducer(state = {}, action) {
     switch (action.type) {
         case TYPE_TOPIC_REFRESH_SUC:
-            return Object.assign({}, state, getNodesFromPost(action.result));
         case TYPE_TOPIC_LOAD_MORE_SUC :
+            return Object.assign({}, state, getNodesFromPost(action.result));
+        case TYPE_NEWS_REFRESH_SUC:
+        case TYPE_NEWS_LOAD_MORE_SUC:
             return Object.assign({}, state, getNodesFromPost(action.result));
         default:
             return state;

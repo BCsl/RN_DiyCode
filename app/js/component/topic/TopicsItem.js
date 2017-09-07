@@ -29,7 +29,7 @@ import{
     TouchableNativeFeedback,
 }from 'react-native'
 import PropTypes from 'prop-types';
-import {Colors} from '../../../res'
+import {Colors, Images} from '../../../res'
 
 export default class NewsItem extends Component {
 
@@ -66,6 +66,9 @@ export default class NewsItem extends Component {
                     <View style={styles.header}>
                         <Image style={styles.thumb}
                                source={{uri: item.user.avatar_url}}>
+                            <Image
+                                style={[styles.thumb, {zIndex: -1}]}
+                                source={Images.common.ic_default_avatar}/>
                         </Image>
                         <Text style={styles.author}>
                             {item.user.name ? item.user.name : item.user.login}
@@ -150,7 +153,7 @@ const
             marginLeft: 6,
             marginRight: 6,
             fontSize: 12,
-            color: Colors.textGray,
+            color: Colors.secondaryTextDark,
             fontWeight: `bold`,
         },
         time: {
