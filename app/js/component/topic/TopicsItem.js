@@ -29,9 +29,9 @@ import{
     TouchableNativeFeedback,
 }from 'react-native'
 import PropTypes from 'prop-types';
-import {Colors, Images} from '../../../res'
+import {Colors, Images} from '../../../res';
 
-export default class NewsItem extends Component {
+export default class TopicItem extends Component {
 
     constructor() {
         super();
@@ -93,7 +93,7 @@ export default class NewsItem extends Component {
 }
 
 
-NewsItem.propTypes = {
+TopicItem.propTypes = {
     pressedListener: PropTypes.func,
     index: PropTypes.number,
     item: PropTypes.shape({

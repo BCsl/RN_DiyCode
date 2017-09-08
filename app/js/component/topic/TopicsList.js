@@ -9,7 +9,7 @@ import{
     View,
     StyleSheet,
 }from 'react-native';
-import NewItems  from './TopicsItem';
+import TopicItem  from './TopicsItem';
 import ListFooter from '../common/ListFooter';
 
 export default class NewsList extends Component {
@@ -31,8 +31,13 @@ export default class NewsList extends Component {
     }
 
     render() {
-        let {onRefresh, isRefreshing, iaLoading} = this.props;
-        let footerComponent = iaLoading ? this._renderLoadingFooter : this._renderLoadingFooter;
+        let {onRefresh, isRefreshing, isLoading, isError, message, hasMore} = this.props;
+        let footerComponent = this._renderLoadingFooter;
+        if (isError) {
+            footerComponent = (<ListFooter state={'Error'} retryListener={()=>this._loadMoreNews()}/>);
+        } else if (!hasMore) {
+            footerComponent = (<ListFooter state={'HasMore'}/>);
+        }
         return (
             <FlatList
                 keyExtractor={(item, index)=>index}
@@ -83,7 +88,7 @@ export default class NewsList extends Component {
         if (false) {
             console.log('index:' + index + ",title:" + item.title);
         }
-        return (<NewItems item={item} pressedListener={this._onPressItem} index={index}/>);
+        return (<TopicItem item={item} pressedListener={this._onPressItem} index={index}/>);
     }
 
 }

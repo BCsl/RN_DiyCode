@@ -59,7 +59,7 @@ export function getNewsListFromCache(offset, limit) {
     }).catch(err => {
         "use strict";
         console.warn('API#getNewListFromCache:', err);
-        return getNewList(offset, limit, true);
+        return getNewsList(offset, limit, true);
     });
 
 }

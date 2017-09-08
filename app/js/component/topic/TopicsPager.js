@@ -47,7 +47,7 @@ export default class TopicsPager extends Component {
         if (this.props.isRefreshing && this.props.result.length <= 0) {
             console.log('loading');
             return this._renderLoading('Loading...');
-        } else if (this.props.isError) {
+        } else if (this.props.isError && this.props.result.length <= 0) {
             return this._renderError(this.props.message);
         } else {
             console.log('list:', this.props.result);
@@ -56,7 +56,7 @@ export default class TopicsPager extends Component {
     }
 
     _renderList() {
-        let {isRefreshing, isLoading} = this.props;
+        let {isRefreshing, isLoading, isError, message, hasMore} = this.props;
         return (
             <View style={styles.container}>
                 <TopicsList
@@ -64,6 +64,9 @@ export default class TopicsPager extends Component {
                     isRefreshing={isRefreshing}
                     iaLoading={isLoading}
                     loadMore={this._onLoadMore}
+                    isError={isError}
+                    message={message}
+                    hasMore={hasMore}
                     onTopicClick={(index, item)=>this.props.onTopicClick(index, item)}
                     list={this.props.result}/>
             </View>

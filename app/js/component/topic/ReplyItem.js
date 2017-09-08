@@ -10,7 +10,7 @@ import {
     Image,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {Colors} from '../../../res';
+import {Colors, Images} from '../../../res';
 import HTMLView from 'react-native-htmlview';
 
 export default class ReplyItem extends Component {

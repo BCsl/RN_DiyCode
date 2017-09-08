@@ -14,12 +14,21 @@ import {
     OFFSET,
 } from  '../../action/NewsAction';
 
+//      "id": 2652,
+//     "title": "Which of the Node.JS Frameworks to Choose and Why?",
+//     "created_at": "2017-09-06T18:30:43.135+08:00",
+//     "updated_at": "2017-09-07T11:45:55.702+08:00",
+//     "user_id": 5628,
+//     "node_id": 5,
+//     "address": "https://artjoker.net/blog/which-of-the-nodejs-frameworks-to-choose-and-why/",
+
 const initState = {
-    isRefreshing: true,
+    isRefreshing: false,
     isLoading: false,
     isError: false,
     hasMore: true,
     curPage: 0,
+    message: 'init',
     result: [],//news 数组
 };
 

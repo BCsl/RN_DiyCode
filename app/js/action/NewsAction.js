@@ -29,7 +29,7 @@ export const newsRefreshAction = function () {
             type: TYPE_NEWS_REFRESH_SUC,
             result: result,
         })).catch(err => dispatch({
-            type: TYPE_NES_REFRESH_ERR,
+            type: TYPE_NEWS_REFRESH_ERR,
             result: err,
         }));
     }
