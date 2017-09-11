@@ -6,6 +6,7 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     FlatList,
+    View,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import ListFooter from '../common/ListFooter';
@@ -28,19 +29,19 @@ export default class BaseList extends Component {
     }
 
     render() {
-        let {result, isRefreshing, isError, hasMore, renderItem, header, refreshEnable, refreshData, separator}= this.props;
+        let {result, isRefreshing, isError, renderItem, header, refreshEnable, refreshData, separator}= this.props;
         if (isError && result.length <= 0) {
             return (<Text style={{textAlign: "center", color: 'red', flex: 1}}>{message}</Text>);
         }
-        refreshData = refreshData && refreshEnable;
-        isRefreshing = isRefreshing && refreshEnable && refreshData;
+        refreshData = refreshEnable ? refreshData : null;
+        isRefreshing = ( refreshEnable && refreshData) ? isRefreshing : false;
         return (
             <FlatList
                 style={styles.container}
                 keyExtractor={(item, index)=>index}
                 data={result}
                 renderItem={renderItem}
-                onRefresh={refreshData}
+                onRefresh={()=>refreshData && refreshData()}
                 refreshing={isRefreshing}
                 ListHeaderComponent={header}
                 ListFooterComponent={this._renderFooter}
@@ -59,7 +60,7 @@ export default class BaseList extends Component {
         if (loadMoreEnable) {
             footerComponent = isRefreshing ? null : (<ListFooter state={'Loading'}/>);
             if (isError) {
-                footerComponent = (<ListFooter state={'Error'} retryListener={()=>this._loadMoreNews()}/>);
+                footerComponent = (<ListFooter state={'Error'} retryListener={()=>this._loadMore()}/>);
             } else if (!hasMore) {
                 footerComponent = (<ListFooter state={'HasMore'}/>);
             }
@@ -103,7 +104,6 @@ BaseList.defaultProps = {
     refreshEnable: false,
     isError: false,
     hasMore: true,
-
 }
 
 const styles = StyleSheet.create({

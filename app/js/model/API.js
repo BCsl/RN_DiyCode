@@ -7,6 +7,7 @@ const HOST = 'https://diycode.cc/api/v3';
 
 const MAIN_TOPICS_LIST = 'mainTopicsList';
 const MAIN_NEWS_LIST = 'mainNewsList';
+const MAIN_SITES_LIST = 'mainSitesList';
 
 const storage = global.storage;
 
@@ -135,4 +136,27 @@ export function getTopicReplies(id, offest = 0, limit = 10) {
         limit: limit,
     };
     return HTTPUtils.get(`${HOST}/topics/${id}/replies.json`, param);
+}
+
+
+//------------网站-----------------
+export function getSites(cacheable = false) {
+    return HTTPUtils.get(`${HOST}//sites.json`).then(ret=> {
+        "use strict";
+        if (cacheable) {
+            storage.save({
+                key: MAIN_SITES_LIST,
+                data: ret,
+                expires: 60 * 60 * 1000,
+            });
+            return ret;
+        }
+    });
+}
+
+export function getSitesFromCache() {
+    return storage.load({key: MAIN_SITES_LIST}).catch(err => {
+        "use strict";
+        return getSites(true);
+    });
 }

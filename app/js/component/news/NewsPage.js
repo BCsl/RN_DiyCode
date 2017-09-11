@@ -12,6 +12,7 @@ import {
 import PropTypes from 'prop-types';
 import ListFooter from '../common/ListFooter';
 import NewsItem from '../news/NewsItem';
+import BaseList from '../common/BaseList';
 
 export default class NewsPage extends Component {
 
@@ -37,32 +38,22 @@ export default class NewsPage extends Component {
 
     render() {
         let {result, isRefreshing, isLoading, isError, hasMore, message}= this.props;
-        if (isError && result.length <= 0) {
-            return (<Text style={{textAlign: "center", color: 'red', flex: 1}}>{message}</Text>);
-        }
-        let footerComponent = isRefreshing ? null : (<ListFooter state={'Loading'}/>);
-        if (isError) {
-            footerComponent = (<ListFooter state={'Error'} retryListener={()=>this._loadMoreNews()}/>);
-        } else if (!hasMore) {
-            footerComponent = (<ListFooter state={'HasMore'}/>);
-        }
         return (
             <View style={styles.container}>
-                <FlatList
-                    style={styles.container}
-                    keyExtractor={(item, index)=>index}
-                    data={result}
+                <BaseList
+                    loadMoreEnable={true}
+                    refreshEnable={true}
+                    isRefreshing={isRefreshing}
+                    isError={isError}
+                    hasMore={hasMore}
+                    result={result}
+                    refreshData={()=>this._onRefresh()}
+                    loadMoreData={()=>this._loadMoreNews()}
                     renderItem={this._renderItem}
-                    onRefresh={this._onRefresh}
-                    refreshing={isRefreshing}
-                    ListHeaderComponent={this._renderHeader}
-                    ListFooterComponent={footerComponent}
-                    ListEmptyComponent={this._renderEmpty}
-                    ItemSeparatorComponent={this._separator}
-                    onEndReachedThreshold={0.1}
-                    onEndReached={()=>this._loadMoreNews()}
+                    separator={this._separator}
+                    header={this._renderHeader}
                 >
-                </FlatList>
+                </BaseList>
             </View>
         )
     }
@@ -72,7 +63,7 @@ export default class NewsPage extends Component {
     }
 
     _renderItem({item, index}) {
-        return (<NewsItem item={item} pressedListener={()=>log.d('click')} index={index}/>);
+        return (<NewsItem item={item} pressedListener={()=>console.log('click')} index={index}/>);
     }
 
     _onRefresh() {

@@ -7,6 +7,7 @@ import  Topics from './topic';
 import  UserReducer from './UserReducer';
 import  NodeReducer from './NodeReducer';
 import  NewsReducer from './news';
+import SiteReducer from './site'
 
 export default combineReducers({
     nav: NavigatorReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
     user: UserReducer,
     node: NodeReducer,
     news: NewsReducer,
+    site: SiteReducer,
 })

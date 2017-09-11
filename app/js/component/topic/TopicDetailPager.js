@@ -287,8 +287,9 @@ const styles = StyleSheet.create({
         color: '#b6b7ba',
     },
     thumb: {
-        width: 25,
-        height: 25,
+        width: 32,
+        height: 32,
+        borderRadius: 16,
     },
     separator: {
         height: 5,

@@ -10,7 +10,8 @@ import {
     Image,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {Colors, Images} from '../../../res'
+import {Colors, Images} from '../../../res';
+import Icon from 'react-native-vector-icons/Octicons';
 
 export default class NewsItem extends Component {
 
@@ -26,8 +27,14 @@ export default class NewsItem extends Component {
         console.log('NewsItem=>componentWillUnmount',);
     }
 
+    getHost(url) {
+        var reg = /^http(s)?:\/\/(.*?)\//;
+        return reg && reg.exec(url)[2];
+    }
+
     render() {
         let {pressedListener, index, item} =this.props;
+        let address = this.getHost(item.address);
         return (
             <TouchableNativeFeedback
                 onPress={()=>pressedListener(index, item)}
@@ -55,9 +62,14 @@ export default class NewsItem extends Component {
                     <Text style={styles.title}>
                         {item.title}
                     </Text>
-                    <Text style={styles.address}>
-                        {item.address}
-                    </Text>
+                    <View style={styles.address}>
+                        <Icon name="link" size={16}/>
+                        <Text style={styles.addressText}
+                              ellipsizeMode={"tail"}
+                              numberOfLines={1}>
+                            {address}
+                        </Text>
+                    </View>
                 </View>
             </TouchableNativeFeedback>
         )
@@ -111,6 +123,7 @@ const styles = StyleSheet.create({
     thumb: {
         width: 25,
         height: 25,
+        borderRadius: 13,
     },
     title: {
         fontSize: 14,
@@ -118,9 +131,22 @@ const styles = StyleSheet.create({
         textAlign: 'left',
     },
     address: {
-        fontSize: 14,
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        backgroundColor: Colors.divider,
+        marginTop: 16,
+        paddingLeft: 9,
+        paddingRight: 9,
+        paddingTop: 6,
+        paddingBottom: 6,
+    },
+    addressText: {
+        fontSize: 12,
         color: Colors.secondaryTextDark,
         textAlign: 'left',
+        marginLeft: 8,
     },
     author: {
         marginLeft: 6,

@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {TabNavigator, TabBarTop} from 'react-navigation';
 import TopicsPagerContainer from '../container/TopicsContainer';
 import NewsContainer from '../container/NewsContainer';
-import SitesPage from '../component/SitesPage';
+import SiteContainer from '../container/SiteContainer';
 import Color from '../../res/Colors';
 
 const HomeTab = TabNavigator({
@@ -16,7 +16,7 @@ const HomeTab = TabNavigator({
         screen: NewsContainer,
     },
     Sites: {
-        screen: SitesPage,
+        screen: SiteContainer,
     },
 }, {
     tabBarComponent: TabBarTop,
