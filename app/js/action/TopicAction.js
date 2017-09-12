@@ -33,11 +33,12 @@ export const OFFSET_RELY = 10;
  * 主题页更新 Action
  * @returns {Function}
  */
-export const topicsRefreshAction = function () {
+export const topicsRefreshAction = function (forceUpdate = false) {
     return function (dispatch) {
         console.log('topicsRefreshAction starting');
         dispatch({type: TYPE_TOPIC_REFRESHING, result: "Loading..."});
-        getTopicListFromCache(0, OFFSET).then(result => dispatch({
+        let api = forceUpdate ? getTopicList : getTopicListFromCache;
+        api(0, OFFSET, true).then(result => dispatch({
             type: TYPE_TOPIC_REFRESH_SUC,
             result: result,
         })).catch(err => dispatch({

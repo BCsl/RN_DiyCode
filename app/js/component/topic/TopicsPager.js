@@ -28,10 +28,10 @@ export default class TopicsPager extends Component {
     }
 
 
-    _onRefresh() {
+    _onRefresh(forceUpdate = false) {
         console.log('TopicsPager onRefresh');
         if (!this.props.isRefreshing) {
-            this.props.refresh();
+            this.props.refresh(forceUpdate);
         }
     }
 
@@ -60,7 +60,7 @@ export default class TopicsPager extends Component {
         return (
             <View style={styles.container}>
                 <TopicsList
-                    onRefresh={this._onRefresh}
+                    onRefresh={()=>this._onRefresh(true)}
                     isRefreshing={isRefreshing}
                     iaLoading={isLoading}
                     loadMore={this._onLoadMore}

@@ -47,7 +47,7 @@ export default class NewsPage extends Component {
                     isError={isError}
                     hasMore={hasMore}
                     result={result}
-                    refreshData={()=>this._onRefresh()}
+                    refreshData={()=>this._onRefresh(true)}
                     loadMoreData={()=>this._loadMoreNews()}
                     renderItem={this._renderItem}
                     separator={this._separator}
@@ -66,10 +66,10 @@ export default class NewsPage extends Component {
         return (<NewsItem item={item} pressedListener={()=>console.log('click')} index={index}/>);
     }
 
-    _onRefresh() {
+    _onRefresh(forceUpdate = false) {
         let {isRefreshing, fetchNews} = this.props;
         if (!isRefreshing) {
-            fetchNews(0);
+            fetchNews(0, forceUpdate);
         }
     }
 

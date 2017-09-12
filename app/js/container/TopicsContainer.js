@@ -28,12 +28,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        refresh: ()=> {
-            "use strict";
-            dispatch(topicsRefreshAction());
+        refresh: (forceUpdate = false)=> {
+            dispatch(topicsRefreshAction(forceUpdate));
         },
         loadMore: (page)=> {
-            "use strict";
             dispatch(topicsLoadMoreAction(page));
         },
         onTopicClick: (index, item) => {

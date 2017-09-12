@@ -50,7 +50,7 @@ export function getNewsList(offest, limit, cacheable = false) {
  * @param limit
  * @returns {Promise.<T>}
  */
-export function getNewsListFromCache(offset, limit) {
+export function getNewsListFromCache(offset, limit, cacheable = true) {
     return storage.load({
         key: MAIN_NEWS_LIST,
     }).then(ret => {
@@ -60,7 +60,7 @@ export function getNewsListFromCache(offset, limit) {
     }).catch(err => {
         "use strict";
         console.warn('API#getNewListFromCache:', err);
-        return getNewsList(offset, limit, true);
+        return getNewsList(offset, limit, cacheable);
     });
 
 }
@@ -104,7 +104,7 @@ export function getTopicList(offset, limit, cacheable = false) {
  * @param limit
  * @returns {Promise.<T>}
  */
-export function getTopicListFromCache(offset, limit) {
+export function getTopicListFromCache(offset, limit, cacheable = true) {
     return storage.load({
         key: MAIN_TOPICS_LIST,
     }).then(ret => {
@@ -114,7 +114,7 @@ export function getTopicListFromCache(offset, limit) {
     }).catch(err => {
         "use strict";
         console.warn('API#getTopicListFromCache:', err);
-        return getTopicList(offset, limit, true);
+        return getTopicList(offset, limit, cacheable);
     });
 }
 /**
@@ -140,7 +140,7 @@ export function getTopicReplies(id, offest = 0, limit = 10) {
 
 
 //------------网站-----------------
-export function getSites(cacheable = false) {
+export function getSites(cacheable = true) {
     return HTTPUtils.get(`${HOST}//sites.json`).then(ret=> {
         "use strict";
         if (cacheable) {
@@ -149,8 +149,8 @@ export function getSites(cacheable = false) {
                 data: ret,
                 expires: 60 * 60 * 1000,
             });
-            return ret;
         }
+        return ret;
     });
 }
 

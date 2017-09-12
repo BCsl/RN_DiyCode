@@ -21,11 +21,12 @@ export const OFFSET = 20;
  * 新闻页更新 Action
  * @returns {Function}
  */
-export const newsRefreshAction = function () {
+export const newsRefreshAction = function (forceUpdate = false) {
     return function (dispatch) {
         console.log('topicsRefreshAction starting');
         dispatch({type: TYPE_NEWS_REFRESHING, result: "Loading..."});
-        getNewsListFromCache(0, OFFSET).then(result => dispatch({
+        let api = forceUpdate ? getNewsList : getNewsListFromCache;
+        api(0, OFFSET, true).then(result => dispatch({
             type: TYPE_NEWS_REFRESH_SUC,
             result: result,
         })).catch(err => dispatch({

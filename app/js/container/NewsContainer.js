@@ -28,9 +28,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchNews: (page = 0)=> {
+        fetchNews: (page = 0, forceUpdate = false)=> {
             if (page === 0) {
-                dispatch(newsRefreshAction());
+                dispatch(newsRefreshAction(forceUpdate));
             } else {
                 dispatch(newsLoadMoreAction(page));
             }

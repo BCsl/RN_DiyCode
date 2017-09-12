@@ -39,9 +39,11 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         alignItems: 'center',
         backgroundColor: Colors.divider,
+        flexDirection: 'column',
     },
     title: {
         fontSize: 14,
+        fontWeight: 'bold',
         color: Colors.colorPrimaryDark,
     }
 });
