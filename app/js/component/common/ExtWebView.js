@@ -96,6 +96,7 @@ export default class ExtWebView extends Component {
                 ref={webview => {
                     this.extWebView = webview;
                 }}
+                contentInset={{top: 16, left: 16, bottom: 16, right: 16}}
                 scrollEnabled={this.props.scrollEnabled || false}
                 {...this.props}
                 javaScriptEnabled={true}

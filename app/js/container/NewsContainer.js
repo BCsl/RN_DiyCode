@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import NewsPage from '../component/news/NewsPage';
 import {newsRefreshAction, newsLoadMoreAction} from '../action/NewsAction';
+import {NavigationActions} from 'react-navigation';
 
 
 const mapStateToProps = (state) => {
@@ -37,7 +38,16 @@ const mapDispatchToProps = (dispatch) => {
         },
         onNewsClickListener: (index, item) => {
             "use strict";
-            console.log('NewsContainer click:', index);
+            console.log('NewsContainer click:', item.address);
+            let action = NavigationActions.navigate(
+                {
+                    routeName: 'WebPager',
+                    params: {
+                        uri: item.address,
+                        title: item.title,
+                    }
+                });
+            dispatch(action);
         },
     }
 }

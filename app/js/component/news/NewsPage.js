@@ -63,7 +63,10 @@ export default class NewsPage extends Component {
     }
 
     _renderItem({item, index}) {
-        return (<NewsItem item={item} pressedListener={()=>console.log('click')} index={index}/>);
+        return (
+            <NewsItem item={item}
+                      pressedListener={(index, item)=>this.props.onNewsClickListener(index, item)}
+                      index={index}/>);
     }
 
     _onRefresh(forceUpdate = false) {

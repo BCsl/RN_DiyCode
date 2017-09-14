@@ -147,7 +147,7 @@ export function getSites(cacheable = true) {
             storage.save({
                 key: MAIN_SITES_LIST,
                 data: ret,
-                expires: 60 * 60 * 1000,
+                expires: 24 * 60 * 60 * 1000,
             });
         }
         return ret;

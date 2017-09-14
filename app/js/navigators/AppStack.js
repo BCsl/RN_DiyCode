@@ -6,6 +6,7 @@ import {StackNavigator} from 'react-navigation';
 import SettingPage from '../component/SettingPage';
 import Home from '../component/Home';
 import DetailContainer from '../container/TopicDetailContainer';
+import WebPager from '../component/common/WebPager';
 
 export default AppStack = StackNavigator({
     Home: {
@@ -16,6 +17,9 @@ export default AppStack = StackNavigator({
     },
     TopicDetail: {
         screen: DetailContainer,
+    },
+    WebPager: {
+        screen: WebPager,
     }
 });
 
