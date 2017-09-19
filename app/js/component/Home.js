@@ -44,7 +44,7 @@ class Home extends Component {
                         this.refs['homeDrawer'].openDrawer();
                     }}>
                         <Image style={BarIconContainer.image()}
-                               source={Images.common.ic_menu_back}
+                               source={Images.common.ic_menu_black}
                         ></Image>
                     </BarIconContainer>
                     <Image style={{width: 100, height: 24, resizeMode: 'contain'}}

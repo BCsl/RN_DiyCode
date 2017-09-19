@@ -7,6 +7,7 @@ import {
     StyleSheet,
     SectionList,
     Text,
+    Linking,
     ActivityIndicator,
 }from'react-native';
 import  SiteHeader from './SiteHeader';
@@ -94,7 +95,9 @@ export default class SitesPage extends Component {
     }
 
     _renderItem({item, index}) {
-        return <SiteItem item={item} index={index} pressedListener={this.props.onPressListener}></SiteItem>;
+        return <SiteItem item={item} index={index} pressedListener={(url) => {
+            Linking.openURL(url);
+        }}></SiteItem>;
     }
 
 }

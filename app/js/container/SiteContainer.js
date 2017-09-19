@@ -14,9 +14,23 @@ const mapStateToProps = (state) => {
             category.key = category.name;
             category.data = category.sites.slice();
             if (category.data != null) {
+                let fixedResult = [];
                 for (let site of category.data) {
                     site.key = site.name;
                 }
+                for (let index = 0; index < category.data.length; index++) {
+                    category.data[index].key = category.data[index].name;
+                    let fixIndex = Number.parseInt(index / 2);
+                    let arrayIndex = index % 2;
+                    let array = fixedResult[fixIndex];
+                    if (array == null) {
+                        array = new Array();
+                        fixedResult[fixIndex] = array;
+                    }
+                    array[arrayIndex] = category.data[index];
+                }
+                category.data = fixedResult;
+                console.log('SiteContainer', fixedResult);
             }
         }
     }
@@ -32,10 +46,6 @@ const mapDispatchToProps = (dispatch) => {
         fetchSites: (forceUpdate = false)=> {
             dispatch(getSitesAction(forceUpdate));
         },
-        onPressListener: (url)=> {
-            "use strict";
-            console.log('SiteContainer click', url);
-        }
     }
 }
 

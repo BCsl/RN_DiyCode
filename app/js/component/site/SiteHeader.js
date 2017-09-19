@@ -37,12 +37,13 @@ const styles = StyleSheet.create({
         paddingRight: 16,
         paddingTop: 8,
         paddingBottom: 8,
-        alignItems: 'center',
         backgroundColor: Colors.divider,
         flexDirection: 'column',
+        alignItems:'flex-start',
+        justifyContent:'center'
     },
     title: {
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: 'bold',
         color: Colors.colorPrimaryDark,
     }

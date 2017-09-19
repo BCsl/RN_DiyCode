@@ -145,7 +145,7 @@ const
             height: 25,
         },
         title: {
-            fontSize: 16,
+            fontSize: 14,
             color: Colors.primaryTextDark,
             textAlign: 'left',
         },
