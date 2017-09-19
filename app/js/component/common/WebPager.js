@@ -1,4 +1,5 @@
 /**
+ * 内部 webview 组件
  * Created by chensuilun on 2017/9/14.
  */
 import React, {Component} from 'react';
@@ -11,10 +12,11 @@ import {
     Image,
     Linking,
     ActivityIndicator,
+    ToolbarAndroid,
+    Dimensions,
 } from 'react-native';
 import {Colors, Images} from '../../../res';
 import PropTypes from 'prop-types';
-import BarIconContainer from './BarIconContainer';
 
 export default class WebPager extends Component {
 
@@ -23,6 +25,7 @@ export default class WebPager extends Component {
     constructor() {
         super();
         this.state = {backEnabled: false};
+        this._renderToolbar = this._renderToolbar.bind(this);
         this.backPressHandler = ()=> {
             if (this.state.backEnabled) {
                 this.webView.goBack();
@@ -34,21 +37,9 @@ export default class WebPager extends Component {
     }
 
     static navigationOptions = ({navigation}) => ({
-        title: '新闻',
         gesturesEnabled: true,
-        headerRight: WebPager.moreAction(navigation),
+        header: null,
     });
-
-    static moreAction = (navigation) => {
-        let {uri} = navigation.state.params;
-        return (
-            <BarIconContainer onPressListener={()=>Linking.openURL(uri)}>
-                <Image style={BarIconContainer.image()}
-                       source={Images.common.ic_settings_black}
-                ></Image>
-            </BarIconContainer>)
-    };
-
 
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.backPressHandler);
@@ -61,8 +52,11 @@ export default class WebPager extends Component {
 
     render() {
         let {uri} = this.props.navigation.state.params;
+        const {width} = Dimensions.get('window')
         return (
             <View style={styles.container}>
+                {this._renderToolbar()}
+                <View style={{width: width, height: 1, backgroundColor: Colors.divider, opacity: 0.2}}/>
                 <WebView
                     ref={webview => {
                         this.webView = webview;
@@ -82,6 +76,28 @@ export default class WebPager extends Component {
                 />
             </View>
         )
+    }
+
+    _renderToolbar() {
+        let {uri} = this.props.navigation.state.params;
+        return (<ToolbarAndroid
+            title={"新闻"}
+            style={styles.toolbar}
+            navIcon={Images.common.ic_close}
+            onActionSelected={ (position)=> {
+                switch (position) {
+                    case 0:
+                        Linking.openURL(uri);
+                        break;
+                    default:
+                        break;
+                }
+            }}
+            onIconClicked={()=> {
+                this.props.navigation.goBack();
+            }}
+            actions={[{title: 'Open in browser', icon: Images.common.ic_open_in_browser, show: 'never'}]}
+        />);
     }
 
 
@@ -109,7 +125,6 @@ export default class WebPager extends Component {
     }
 
     _onLoadStart() {
-        console.log('WebPager _onLoadStart',);
         return (
             <View style={[styles.container, {justifyContent: 'center', alignItems: 'center'}]}>
                 <ActivityIndicator
@@ -135,5 +150,9 @@ const styles = StyleSheet.create({
     webView: {
         flex: 1,
         height: 200,
-    }
+    },
+    toolbar: {
+        backgroundColor: Colors.colorPrimary,
+        height: 56,
+    },
 });
