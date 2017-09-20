@@ -41,7 +41,7 @@ export default class BaseList extends Component {
                 keyExtractor={(item, index)=>index}
                 data={result}
                 renderItem={renderItem}
-                onRefresh={()=>refreshData && refreshData()}
+                onRefresh={refreshData ? ()=>refreshData() : null}
                 refreshing={isRefreshing}
                 ListHeaderComponent={header}
                 ListFooterComponent={this._renderFooter}

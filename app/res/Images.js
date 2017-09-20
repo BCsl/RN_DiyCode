@@ -5,9 +5,11 @@
  */
 export default {
     common: {
+        banner: require('./image/common/banner.png'),
         ic_arrow_back_black: require('./image/common/ic_arrow_back_black.png'),
         ic_close: require('./image/common/ic_close.png'),
         ic_default_avatar: require('./image/common/ic_default_avatar.png'),
+        ic_info_outline: require('./image/common/ic_info_outline.png'),
         ic_like: require('./image/common/ic_like.png'),
         ic_logo: require('./image/common/ic_logo.png'),
         ic_menu_black: require('./image/common/ic_menu_black.png'),

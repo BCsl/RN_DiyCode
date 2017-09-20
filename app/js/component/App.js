@@ -29,16 +29,19 @@ class App extends Component {
                 navigation={
                     addNavigationHelpers({
                         dispatch: this.props.dispatch,
-                        state: this.props.nav,
+                        state: this.props.navState,
                     })
                 }
             />
         )
     }
 }
-//接收全部状态
+
 const mapStateToProps = (state) => {
-    return {...state}
+    return {
+        dispatch: state.dispatch,
+        navState: state.nav,
+    }
 };
 
 export default AppContainer = connect(mapStateToProps)(App);

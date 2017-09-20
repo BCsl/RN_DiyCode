@@ -14,7 +14,7 @@ import {connect} from 'react-redux';
 import {Colors, Images} from '../../res';
 import BarIconContainer from './common/BarIconContainer';
 import HomeTab from '../navigators/HomeTab';
-import DrawerPage from './DrawerPage';
+import DrawerContainer from '../container/DrawerContainer';
 
 class Home extends Component {
 
@@ -41,7 +41,7 @@ class Home extends Component {
                     alignItems: 'center'
                 }}>
                     <BarIconContainer onPressListener={()=> {
-                        this.refs['homeDrawer'].openDrawer();
+                        this.homeDrawer.openDrawer();
                     }}>
                         <Image style={BarIconContainer.image()}
                                source={Images.common.ic_menu_black}
@@ -60,10 +60,12 @@ class Home extends Component {
         console.log('Home=>render', this.props);
         return (
             <DrawerLayoutAndroid
-                ref="homeDrawer"
+                ref={homeDrawer => {
+                    this.homeDrawer = homeDrawer;
+                }}
                 drawerWidth={250}
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
-                renderNavigationView={()=>(<DrawerPage/>)}>
+                renderNavigationView={()=>(<DrawerContainer closeDrawer={()=> this.homeDrawer.closeDrawer()}/>)}>
                 <View style={styles.container}>
                     {toolbar}
                     <HomeTab/>

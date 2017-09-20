@@ -4,9 +4,11 @@
 import React, {Component} from 'react';
 import {StackNavigator} from 'react-navigation';
 import SettingPage from '../component/SettingPage';
+import AboutPage from '../component/AboutPage';
 import Home from '../component/Home';
 import DetailContainer from '../container/TopicDetailContainer';
 import WebPager from '../component/common/WebPager';
+import UserPager from '../component/UserPager';
 
 export default AppStack = StackNavigator({
     Home: {
@@ -20,6 +22,12 @@ export default AppStack = StackNavigator({
     },
     WebPager: {
         screen: WebPager,
+    },
+    About: {
+        screen: AboutPage,
+    },
+    User: {
+        screen: UserPager
     }
 });
 

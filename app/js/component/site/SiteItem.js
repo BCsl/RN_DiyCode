@@ -42,6 +42,9 @@ export default class SiteItem extends Component {
                 background={TouchableNativeFeedback.SelectableBackground()}>
                 <View style={styles.itemContainer}>
                     <Image style={styles.thumb}
+                           onError={(e)=> {
+                               console.log('SiteItem display failed', avatar_url, ',', e)
+                           }}
                            source={{uri: avatar_url}}>
                         <Image
                             style={[styles.thumb, {zIndex: -1}]}
